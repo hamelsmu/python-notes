@@ -50,7 +50,7 @@
 <meta itemprop="description" content="Understanding basic python concurrency through realistic examples.">
 <meta itemprop="datePublished" content="2020-02-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-02-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="2927">
+<meta itemprop="wordCount" content="2931">
 <meta itemprop="image" content="https://python.hamel.dev/cpu.jpg">
 
 
@@ -342,7 +342,7 @@
 <p>By executing the <code>fib_handler</code> in a thread, the main while loop in <code>fib_server</code> will continue, allowing <code>sock.accept()</code> to receive additional clients.</p>
 <h2 id="thread-performance--the-gil">Thread performance &amp; the GIL</h2>
 <p>When code stops execution and waits for an external event to occur (like a connection to be made, or data to be sent), this is often referred to as <a href="https://stackoverflow.com/questions/2407589/what-does-the-term-blocking-mean-in-programming">blocking</a>.</p>
-<p>One important utility of Python threads is that it allows you to force blocking processes to share CPU resources better.  However, Python threads share a single CPU due to Python&rsquo;s <a href="https://wiki.python.org/moin/GlobalInterpreterLock">Global Interpreter Lock</a> (GIL).</p>
+<p>One important utility of Python threads is that it allows you to force blocking processes to share CPU resources better.  However, Python threads can&rsquo;t run python code at the same time, because of Python&rsquo;s <a href="https://wiki.python.org/moin/GlobalInterpreterLock">Global Interpreter Lock</a> (GIL).</p>
 <p>Therefore, you have to think carefully about what kind of tasks you execute on threads.  If you try to execute CPU bound tasks, these tasks will compete with each other and slow each other down.  David demonstrates this with the below script that sends requests to our threaded server:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
