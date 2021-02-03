@@ -4,4 +4,4 @@ These are notes from my exploration of [a talk on concurrency](https://youtu.be/
 
 Developer notes: to rebuild docs
 
-> cd blog && hugo serve -d ../docs
+> cd blog && hugo -d ../docs
