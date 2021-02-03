@@ -170,9 +170,9 @@ copyright = ""            # default: author.name ↓        # 默认为下面配
     alipay = "/path/to/your/alipay-qr-code.png"           # 支付宝二维码
 
   [params.social]                                         # 社交链接
-    c-twitter = "http://localhost:1313"
-    e-linkedin = "http://localhost:1313"
-    g-github = "http://localhost:1313"
+    c-twitter = "https://twitter.com/HamelHusain"
+    e-linkedin = "https://www.linkedin.com/in/hamelhusain/"
+    g-github = "https://github.com/hamelsmu"
 
 # See https://gohugo.io/about/hugo-and-gdpr/
 [privacy]
