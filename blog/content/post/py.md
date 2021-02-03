@@ -150,7 +150,7 @@ By executing the `fib_handler` in a thread, the main while loop in `fib_server` 
 
 When code stops execution and waits for an external event to occur (like a connection to be made, or data to be sent), this is often referred to as [blocking](https://stackoverflow.com/questions/2407589/what-does-the-term-blocking-mean-in-programming).
 
-One important utility of Python threads is that it allows you to force blocking processes to share CPU resources better.  However, Python threads share a single CPU due to Python's [Global Interpreter Lock](https://wiki.python.org/moin/GlobalInterpreterLock) (GIL).  
+One important utility of Python threads is that it allows you to force blocking processes to share CPU resources better.  However, Python threads can't run python code at the same time, because of Python's [Global Interpreter Lock](https://wiki.python.org/moin/GlobalInterpreterLock) (GIL).
 
 Therefore, you have to think carefully about what kind of tasks you execute on threads.  If you try to execute CPU bound tasks, these tasks will compete with each other and slow each other down.  David demonstrates this with the below script that sends requests to our threaded server:
 
