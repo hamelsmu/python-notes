@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on </title>
-    <link>http://localhost:54984/post/</link>
+    <link>http://localhost:1313/post/</link>
     <description>Recent content in Posts on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 05 Feb 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:54984/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 05 Feb 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Python: Threads, Processes and Concurrency</title>
-      <link>http://localhost:54984/</link>
+      <link>http://localhost:1313/</link>
       <pubDate>Wed, 05 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:54984/</guid>
+      <guid>http://localhost:1313/</guid>
       <description>Credit:1
 Understand the world of Python concurrency: threads, processes, coroutines and asynchronous programming with a realistic examples. Motivation As a data scientist who is spending more and more time on software engineering, I was recently forced to confront an ugly gap in my knowledge of Python: concurrency. To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together.</description>
     </item>

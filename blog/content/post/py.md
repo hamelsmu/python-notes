@@ -8,6 +8,11 @@ author: "Hamel Husain"
 images:
 - cpu.jpg
 autoCollapseToc: true
+twitter:
+- card: "summary_large_image"
+- site: "@hamelhusain"
+- creator: "@hamelhusain"
+- image: "cpu.jpg"
 ---
 
 ![](cpu.jpg) Credit:[^4]
