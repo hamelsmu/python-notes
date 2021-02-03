@@ -8,6 +8,6 @@ weight: 50
 
 <p align="center">Created by <a href="https://hamel.dev">Hamel Husain</a>.</p>
 
-<p align="center">This site contains only <a href="/">one blog post</a>.  You can find a collection of my blog posts on my <a href="https://hamel.dev">personal page.</a></p>
+<p align="center">You can find a collection of my blog posts on my <a href="https://hamel.dev">personal page.</a></p>
 
 
