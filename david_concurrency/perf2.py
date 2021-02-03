@@ -17,7 +17,6 @@ sock = socket(AF_INET, SOCK_STREAM)
 sock.connect(('localhost', 25000))
 
 
-
 while True:
     start = time.time()
     sock.send(b'1')
