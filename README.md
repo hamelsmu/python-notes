@@ -1,0 +1,1 @@
+These are notes from my exploration of David
