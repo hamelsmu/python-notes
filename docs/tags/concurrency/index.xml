@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title></title>
-    <link>https://python.hamel.dev/</link>
-    <description>Recent content on </description>
+    <title>concurrency on </title>
+    <link>https://python.hamel.dev/tags/concurrency/</link>
+    <description>Recent content in concurrency on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 05 Feb 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://python.hamel.dev/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>About</title>
-      <link>https://python.hamel.dev/about/</link>
-      <pubDate>Sun, 20 Aug 2017 21:38:52 +0800</pubDate>
-      
-      <guid>https://python.hamel.dev/about/</guid>
-      <description>Created by Hamel Husain.
-This site contains random notes about things I am learning about Python. You can find a collection of my other blog posts on my personal page.</description>
-    </item>
-    
+    <lastBuildDate>Wed, 05 Feb 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://python.hamel.dev/tags/concurrency/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Python: Threads, Processes and Concurrency</title>
       <link>https://python.hamel.dev/concurrency/</link>

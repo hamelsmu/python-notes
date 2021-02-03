@@ -1,4 +1,4 @@
-baseURL = "https://concurrency.hamel.dev"
+baseURL = "https://python.hamel.dev"
 languageCode = "en"
 defaultContentLanguage = "en"                             # en / zh-cn / ... (This field determines which i18n file to use)
 title = ""
@@ -27,7 +27,13 @@ copyright = ""            # default: author.name ↓        # 默认为下面配
   name = "Home"
   weight = 10
   identifier = "home"
-  url = "https://hamel.dev"
+  url = "https://python.hamel.dev"
+
+[[menu.main]]
+  name = "Tags"
+  weight = 30
+  identifier = "tags"
+  url = "/tags/"
 
 [sitemap]                 # essential                     # 必需
   changefreq = "weekly"
@@ -36,8 +42,8 @@ copyright = ""            # default: author.name ↓        # 默认为下面配
 
 [params]
   images = ["cpu.jpg"]
-  title = "Python: Threads, Processes and Concurrency"
-  description = "Understanding basic python concurrency through realistic examples."
+  title = "Python Notes"
+  description = "Interesting things I've learned about Python."
   version = "4.x"           # Used to give a friendly message when you have an incompatible update
   debug = false             # If true, load `eruda.min.js`. See https://github.com/liriliri/eruda
 
@@ -47,7 +53,7 @@ copyright = ""            # default: author.name ↓        # 默认为下面配
   gitRepo = ""
 
   # site info (optional)                                  # 站点信息（可选，不需要的可以直接注释掉）
-  # logoTitle = "Even"        # default: the title value    # 默认值: 上面设置的title值
+  logoTitle = "Python Notes"        # default: the title value    # 默认值: 上面设置的title值
   keywords = ["Python"]
 
   # paginate of archives, tags and categories             # 归档、标签、分类每页显示的文章数目，建议修改为一个较大的值

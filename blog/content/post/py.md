@@ -1,9 +1,10 @@
 ---
 title: "Python: Threads, Processes and Concurrency"
 date: 2020-02-05
-url: /
+url: /concurrency
 draft: false
 description: "Understanding basic python concurrency through realistic examples."
+tags: ["concurrency"]
 author: "Hamel Husain"
 images:
 - cpu.jpg
@@ -16,7 +17,7 @@ twitter:
 - images: ["cpu.jpg"]
 ---
 
-![](cpu.jpg) Credit:[^4]
+![](/cpu.jpg) Credit:[^4]
 
 **Understand the world of Python concurrency: threads, processes, coroutines and asynchronous programming with a realistic examples.**
 

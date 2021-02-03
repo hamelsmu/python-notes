@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://concurrency.hamel.dev/sitemap.xml
+Sitemap: https://python.hamel.dev/sitemap.xml
