@@ -5,10 +5,14 @@ url: /
 draft: false
 description: "Understanding basic python concurrency through realistic examples."
 author: "Hamel Husain"
+images:
+- cpu.jpg
 autoCollapseToc: true
 ---
 
-Understand the world of Python concurrency: threads, processes, coroutines and asynchronous programming with a realistic examples.
+![](cpu.jpg) Credit:[^4]
+
+### Understand the world of Python concurrency: threads, processes, coroutines and asynchronous programming with a realistic examples.
 
 # Motivation
 
@@ -366,5 +370,4 @@ Furthermore, one of my favorite python libraries, [fastcore](https://fastcore.fa
 [^1]: This fibonacci algorithm runs in O(n<sup>2</sup>) time.
 [^2]: If the `monitor` task took any meaningful CPU time then the rest of the program would not run as "usual" because it might be competing for resources.  But that is not the case here.
 [^3]: One of the most popular ways of using process pools is with the built-in [multiprocessing](https://docs.python.org/3/library/multiprocessing.html) module.
-[^4]: [This video](https://realpython.com/lessons/what-are-python-coroutines/) shows another demonstration of coroutines just to reinforce the topic.
-
+[^4]: Photo is from Luan Gjokaj on [UnSplash](https://unsplash.com/photos/nsr4hePZGYI).

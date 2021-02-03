@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: http://localhost:52186/sitemap.xml
+Sitemap: http://localhost:54984/sitemap.xml
