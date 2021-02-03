@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><script src="/livereload.js?port=1313&amp;mindelay=10&amp;v=2" data-no-instant defer></script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title></title>
+  <title>Python: Threads, Processes and Concurrency - </title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Hamel Husain" /><meta name="description" content="A site with a single blog post." /><meta name="keywords" content="Python" />
+<meta name="author" content="Hamel Husain" /><meta name="description" content="Understanding basic python concurrency through realistic examples." /><meta name="keywords" content="Python" />
 
 
 
@@ -26,9 +26,7 @@
 <meta name="generator" content="Hugo 0.76.5 with theme even" />
 
 
-<link rel="canonical" href="http://localhost:1313/" />
-  <link href="http://localhost:1313/index.xml" rel="alternate" type="application/rss+xml" title="" />
-  <link href="http://localhost:1313/index.xml" rel="feed" type="application/rss+xml" title="" />
+<link rel="canonical" href="//localhost:1313/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -41,16 +39,24 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="" />
-<meta property="og:description" content="A site with a single blog post." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="http://localhost:1313/" />
-<meta property="og:updated_time" content="2020-02-05T00:00:00+00:00" />
-<meta itemprop="name" content="">
-<meta itemprop="description" content="A site with a single blog post.">
+<meta property="og:title" content="Python: Threads, Processes and Concurrency" />
+<meta property="og:description" content="Understanding basic python concurrency through realistic examples." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="//localhost:1313/" />
+<meta property="article:published_time" content="2020-02-05T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-02-05T00:00:00+00:00" />
+<meta itemprop="name" content="Python: Threads, Processes and Concurrency">
+<meta itemprop="description" content="Understanding basic python concurrency through realistic examples.">
+<meta itemprop="datePublished" content="2020-02-05T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-02-05T00:00:00+00:00" />
+<meta itemprop="wordCount" content="2934">
+
+
+
+<meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=""/>
-<meta name="twitter:description" content="A site with a single blog post."/>
+<meta name="twitter:title" content="Python: Threads, Processes and Concurrency"/>
+<meta name="twitter:description" content="Understanding basic python concurrency through realistic examples."/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -108,76 +114,600 @@
     <main id="main" class="main">
       <div class="content-wrapper">
         <div id="content" class="content">
-          <section id="posts" class="posts">
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/">Python: Threads, Processes and Concurrency</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2020-02-05 </span>
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Understand the world of Python concurrency: threads, processes, coroutines and asynchronous programming with a realistic examples.
-Motivation As a data scientist who is spending more and more time on software engineering, I was recently forced to confront an ugly gap in my knowledge of Python: concurrency. To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together. Whenever I encountered talks or material that mentioned these terms, I was unable to grasp related concepts or follow along.
-    </div>
-    <div class="read-more">
-      <a href="/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/preview/">[English] Creating a New Theme</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2017-08-31 </span>
-      <div class="post-category">
-          <a href="/categories/english/"> English </a>
-          </div>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&rsquo;t cover using CSS to style your theme.
-We&rsquo;ll start with creating a new site with a very basic template.
-    </div>
-    <div class="read-more">
-      <a href="/post/preview/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/about/"></a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 0001-01-01 </span>
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      
-    </div>
-    <div class="read-more">
-      <a href="/post/about/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    </section>
-  
-  <nav class="pagination">
+          <article class="post">
     
+    <header class="post-header">
+      <h1 class="post-title">Python: Threads, Processes and Concurrency</h1>
+
+      <div class="post-meta">
+        <span class="post-time">Understanding basic python concurrency through realistic examples. | </span>
+        <span class="post-time"> 2020-02-05 </span>
+
+
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#motivation">Motivation</a></li>
+    <li><a href="#prerequisites">Prerequisites</a>
+      <ul>
+        <li><a href="#a-cpu-bound-task-fibonacci">A cpu-bound task: Fibonacci</a></li>
+        <li><a href="#a-simple-web-server">A Simple Web Server</a></li>
+      </ul>
+    </li>
+    <li><a href="#testing-the-non-concurrent-code">Testing the non-concurrent code</a></li>
+    <li><a href="#threads">Threads</a>
+      <ul>
+        <li><a href="#thread-performance--the-gil">Thread performance &amp; the GIL</a></li>
+        <li><a href="#threads-are-not-just-about-making-things-faster">Threads are not just about making things faster</a></li>
+      </ul>
+    </li>
+    <li><a href="#processes-for-cpu-bound-tasks">Processes For CPU Bound Tasks</a></li>
+    <li><a href="#asynchronous-programming">Asynchronous programming</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#other-random-things">Other random things</a></li>
+    <li><a href="#resources">Resources</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>Understand the world of Python concurrency: threads, processes, coroutines and asynchronous programming with a realistic examples.</p>
+<h1 id="motivation">Motivation</h1>
+<p>As <a href="https://hamel.dev/">a data scientist who is spending more and more time on software engineering</a>, I was recently forced to confront an ugly gap in my knowledge of Python: concurrency.  To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together.  Whenever I encountered talks or material that mentioned these terms, I was unable to grasp related concepts or follow along.</p>
+<p>Furthermore, I was guilty of incorrectly applying these mechanisms due to my lack of understanding.  For example, I avoided using threads completely in favor of processes all the time.  Most importantly, every time I tried to learn about the subject, the examples were a bit too abstract for me, and I hard time internalizing how everything worked.</p>
+<p>This changed when a friend of mine, <a href="https://www.fast.ai/about/#jeremy">Jeremy Howard</a>, recommended <a href="https://youtu.be/MCs5OvhV9S4">a live coding talk</a> by <a href="https://www.dabeaz.com/">Daivd Beazley</a>, an accomplished Python educator.</p>
+<p><em>Because of restrictions with this YouTube video, I couldn&rsquo;t embed <a href="https://youtu.be/MCs5OvhV9S4">the video</a> in this article, so you will have to open it in a different window</em>.</p>
+<p>This talk is incredibly intimidating at first.  Not only is it coded live from scratch, but it also jumps immediately into socket programming, something that I had never encountered as a data scientist.  However, I was encouraged to take things slow and deeply understand this talk, and attempt to understand each piece bit by bit.  This blog post documents what I learned along the way with the hopes that it will benefit others.</p>
+<h1 id="prerequisites">Prerequisites</h1>
+<p>Before getting started, David sets up the following infrastructure that is used to demonstrate threads and concurrency.</p>
+<h2 id="a-cpu-bound-task-fibonacci">A cpu-bound task: Fibonacci</h2>
+<p>To demonstrate concurrency, it is useful to create a task that can saturate your CPU, (such as mathematical operations) for a noticeable period of time.  For this purpose David uses a function that computes a <a href="https://en.wikipedia.org/wiki/Fibonacci_number">Fibonacci number</a>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-py3" data-lang="py3"><span class="c1">#fib.py</span>
+<span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span> <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>This function is useful for threads as it will take much longer for large inputs versus smaller inputs<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, which allows us to profile different workloads.</p>
+<h2 id="a-simple-web-server">A Simple Web Server</h2>
+<p>It is also useful to have a real-word task that can benefit from threading.  A web server is one of the best ways to illustrate the benefits of concurrency with both thread and processes.  However, to really demonstrate how things work it is useful to use something that is sufficiently low level enough to see how the pieces work.</p>
+<p>For this, David sets up a web server using socket programming.  If you aren&rsquo;t familiar with socket programming (I&rsquo;m willing to bet most people are not), please stop reading and complete <a href="https://ruslanspivak.com/lsbaws-part1/">this tutorial</a>.</p>
+<p>To begin with, David starts with the below code (I&rsquo;ve highlighted the most interesting bits):</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="hl"><span class="lnt">11
+</span></span><span class="lnt">12
+</span><span class="hl"><span class="lnt">13
+</span></span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="hl"><span class="lnt">17
+</span></span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="hl"><span class="lnt">21
+</span></span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-py3" data-lang="py3"><span class="c1"># server-1.py</span>
+<span class="kn">from</span> <span class="nn">socket</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">fib</span> <span class="k">import</span> <span class="n">fib</span> 
+
+<span class="k">def</span> <span class="nf">fib_server</span><span class="p">(</span><span class="n">address</span><span class="p">):</span>
+    <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">)</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">SO_REUSEADDR</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="hl">        <span class="n">client</span><span class="p">,</span><span class="n">addr</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>  <span class="c1"># waits for a connection to be established</span>
+</span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Connection&#34;</span><span class="p">,</span> <span class="n">addr</span><span class="p">)</span>
+<span class="hl">        <span class="n">fib_handler</span><span class="p">(</span><span class="n">client</span><span class="p">)</span> <span class="c1"># passes the client to a handler which will listen for input data.</span>
+</span>        
+<span class="k">def</span> <span class="nf">fib_handler</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="hl">        <span class="n">req</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>  <span class="c1"># waits for data that sent by the client.</span>
+</span>        <span class="k">if</span> <span class="ow">not</span> <span class="n">req</span><span class="p">:</span> <span class="k">break</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">fib</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">req</span><span class="p">))</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+<span class="hl">        <span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span> <span class="c1"># sends data back to the client.</span>
+</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Closed&#34;</span><span class="p">)</span>
     
-  </nav>
+<span class="n">fib_server</span><span class="p">((</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">25000</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Here is an explanation of this code:</p>
+<ul>
+<li>Lines 6-9 are socket programming boilerplate.  It&rsquo;s ok to just take this for granted as a reasonable way to set up a socket server.  This also matches the <a href="https://ruslanspivak.com/lsbaws-part1/">the tutorial</a> I linked to above.</li>
+<li>Line 11 waits for an incoming connection from a client.  Once a connection is made, the server can begin receiving data from a client.  The code will stop execution on this line until a connection is made.</li>
+<li>Line 13: Once a connection is established, the client object is passed to a function which can handle data sent by the client.</li>
+<li>Line 17: waits for data to be sent by the client.  The code will stop execution on this line until data is received from the client.</li>
+<li>Line 21: The server sends a response back to the client.  The code <em>could</em> stop execution on this line if the send buffers are full, but unlikely in this toy example.</li>
+</ul>
+<h1 id="testing-the-non-concurrent-code">Testing the non-concurrent code</h1>
+<p>In the above example, the server will only be able to accept a connection from a single client, because the call to <code>fib_handler</code> will never return (because it will run in an infinite loop unless a kill signal is received) which means that <code>sock.accept()</code> can only be called once.</p>
+<p>You can test this out by first running the server:</p>
+<blockquote>
+<p>python server-1.py</p>
+</blockquote>
+<p>Then establish a client:</p>
+<blockquote>
+<p>telnet localhost 25000</p>
+</blockquote>
+<p>You can type numbers in <a href="https://youtu.be/MCs5OvhV9S4?t=293">as David does in his video</a> and verifies that fibonacci numbers are returned.  However, if you try to connect with another client at the same time from a different terminal session:</p>
+<blockquote>
+<p>telnet localhost 25000</p>
+</blockquote>
+<p>You will notice that the second client just hangs and doesn&rsquo;t return anything from the server.  This is because the server is only able to accept a single connection.  We can solve this with threads:</p>
+<h1 id="threads">Threads</h1>
+<p>A way to solve this issue is to use threads.  If you haven&rsquo;t encountered threads before, please go through <a href="https://realpython.com/intro-to-python-threading/">this tutorial on threads</a>.</p>
+<p>You can add threads to the handler so that more connections can be accepted by adding the following two lines code highlighted in yellow:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="hl"><span class="lnt"> 3
+</span></span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="hl"><span class="lnt">13
+</span></span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-py" data-lang="py"><span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">fib</span> <span class="kn">import</span> <span class="n">fib</span>
+<span class="hl"><span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span>
+</span>
+<span class="k">def</span> <span class="nf">fib_server</span><span class="p">(</span><span class="n">address</span><span class="p">):</span>
+    <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">)</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">SO_REUSEADDR</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">client</span><span class="p">,</span><span class="n">addr</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Connection&#34;</span><span class="p">,</span> <span class="n">addr</span><span class="p">)</span>
+<span class="hl">        <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">fib_handler</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">client</span><span class="p">,))</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span>        
+<span class="k">def</span> <span class="nf">fib_handler</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> 
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">req</span><span class="p">:</span> <span class="k">break</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">fib</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">req</span><span class="p">))</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Closed&#34;</span><span class="p">)</span>
+    
+<span class="n">fib_server</span><span class="p">((</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">25000</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>You can verify that this works by connecting two separate clients to the server by running the following command in two separate terminal shells:</p>
+<blockquote>
+<p>telnet localhost 25000</p>
+</blockquote>
+<p>By executing the <code>fib_handler</code> in a thread, the main while loop in <code>fib_server</code> will continue, allowing <code>sock.accept()</code> to receive additional clients.</p>
+<h2 id="thread-performance--the-gil">Thread performance &amp; the GIL</h2>
+<p>When code stops execution and waits for an external event to occur (like a connection to be made, or data to be sent), this is often referred to as <a href="https://stackoverflow.com/questions/2407589/what-does-the-term-blocking-mean-in-programming">blocking</a>.</p>
+<p>One important utility of Python threads is that it allows you to force blocking process to share CPU resources better.  However, Python thread&rsquo;s share a single CPU due to Python&rsquo;s <a href="https://wiki.python.org/moin/GlobalInterpreterLock">Global Interpreter Lock</a> (GIL).</p>
+<p>Therefore, you have to think carefully about what kind of tasks you execute on threads.  If you try to execute CPU bound tasks the tasks will compete with each other and slow each other down.  David demonstrates this with this script that sends a bunch of requests to our threaded server:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-py" data-lang="py"><span class="c1">#perf1.py</span>
+<span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">)</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">25000</span><span class="p">))</span>
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;30&#39;</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>If you run several instances of this script (after starting the server first):</p>
+<blockquote>
+<p>python perf1.py</p>
+</blockquote>
+<p>You will see the execution times for each script linearly increase as you increase the number of these scripts running in parallel.  <strong>For this particular task, adding threads does not make anything faster.  But why?</strong>  This is because the fibonacci task is CPU bound so threads will compete with each other for resources on the same CPU core.</p>
+<p>Threads work by interleaving the execution of different tasks on your CPU.  Only one thread runs at a time, and take turns executing in small bits until all threads are done. The details of this are carried about by your operating system, so you need not worry about how this happens (with one exception mentioned below). Note that this interleaving doesn&rsquo;t always occur in a predictable way (but is not something you should worry about).  Because you are restricted to a single CPU core in Python, interleaving a bunch of CPU bound tasks will not speed up the total runtime of those tasks.  However, if your tasks involve lots of non-CPU time, such as waiting for network connections, or disk I/O interleaving tasks may result in a considerable speedup.  A canonical way of simulating a non-cpu bound task in python is to use the built-in function <code>time.sleep()</code>.</p>
+<p>To check my understanding about threads and performance, I edited <a href="https://realpython.com/intro-to-python-threading/#working-with-many-threads">this code</a> from the tutorial on threads mentioned to above, and changed <code>time.sleep(2)</code> to <code>fib(20)</code> and back again:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="hl"><span class="lnt"> 7
+</span></span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-py" data-lang="py"><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">thread_function</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Thread </span><span class="si">%s</span><span class="s2">: starting&#34;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+<span class="hl">    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1">## Change this line of code to fib(20)</span>
+</span>    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Thread </span><span class="si">%s</span><span class="s2">: finishing&#34;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+    <span class="n">format</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="si">%(asctime)s</span><span class="s2">: </span><span class="si">%(message)s</span><span class="s2">&#34;</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">format</span><span class="o">=</span><span class="n">format</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
+                        <span class="n">datefmt</span><span class="o">=</span><span class="s2">&#34;%H:%M:%S&#34;</span><span class="p">)</span>
+
+    <span class="n">threads</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Main    : create and start thread </span><span class="si">%d</span><span class="s2">.&#34;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">thread_function</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">index</span><span class="p">,))</span>
+        <span class="n">threads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">thread</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">threads</span><span class="p">):</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Main    : before joining thread </span><span class="si">%d</span><span class="s2">.&#34;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+        <span class="n">thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Main    : thread </span><span class="si">%d</span><span class="s2"> done&#34;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;total time: {end-start}&#39;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>As expected, increasing the number of threads while running <code>time.sleep(2)</code> did not increase the program&rsquo;s overall execution time (the program runs in roughly 2 seconds).  On the other hand, replacing <code>time.sleep(2)</code> with <code>fib(20)</code> causes this program&rsquo;s running time to increase as more threads are added. This is because <code>fib(20)</code> is a cpu bound task so interleaving the task doesn&rsquo;t really help much.</p>
+<p>Another interesting but less known aspect that David discusses is the relation between the following two types of tasks:</p>
+<ol>
+<li>things that take much longer to compute on the CPU, like <code>fib(30)</code>, <em>demonstrated with  <a href="https://github.com/dabeaz/concurrencylive/blob/master/perf1.py">perf1.py</a></em>.</li>
+<li>things that compute relatively fast on the CPU, like <code>fib(1)</code>, <em>demonstrated with <a href="https://github.com/dabeaz/concurrencylive/blob/master/perf2.py">perf2.py</a></em>.</li>
+</ol>
+<p>The Python GIL will prioritize the first type of task at the expense of the second if they are made to compete for resources with threads.  You can follow along with a demonstration of this <a href="https://youtu.be/MCs5OvhV9S4?t=568">here</a>.  This is interesting because this is the opposite of how typical operating systems prioritize threads (by favoring shorter running tasks) and is something unique to the implementation of the Python GIL.  More importantly, this behavior has a very practical consequence: if you are running a web-server where most tasks are fairly quick, one outlier expensive cpu-bound task can grind everything to a halt.</p>
+<h2 id="threads-are-not-just-about-making-things-faster">Threads are not just about making things faster</h2>
+<p>It is tempting to think of threads as a tool to make things run faster, but that&rsquo;s not the only use case.  Recall that the socket server used threads to allow multiple connections at once without any speedup.  David illustrates another way to use threads with his code used to measure the runtime of short-running tasks:</p>
+<p><a href="https://github.com/dabeaz/concurrencylive/blob/master/perf2.py">perf2.py</a>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="hl"><span class="lnt">12
+</span></span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="hl"><span class="lnt">19
+</span></span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-py" data-lang="py"><span class="c1"># perf2.py</span>
+<span class="c1"># requests/sec of fast requests</span>
+
+<span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">)</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">25000</span><span class="p">))</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="hl"><span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span>
+</span><span class="k">def</span> <span class="nf">monitor</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">n</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s1">&#39;reqs/sec&#39;</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="hl"><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">monitor</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;1&#39;</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span><span class="n">sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>In this case David uses a single thread with blocking call to <code>sleep(1)</code> to make sure that <code>monitor</code>  only prints out a metric once per second, while allowing the rest of the program to send requests hundreds of times per second.  In other words, this is a clever use of threads and blocking that allow a part of the program to run at a specified time interval while allowing the rest of your program to run as usual. <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<p>These different angles of looking at threads allowed me to understand threads more holistically.  Threads are not only about making certain things run faster or run in parallel, but also allows you to control how your program is executed.</p>
+<h1 id="processes-for-cpu-bound-tasks">Processes For CPU Bound Tasks</h1>
+<p>One way to solve the problem with the GIL and cpu-bound tasks competing for resources is to use processes instead of threads.  Processes are different from threads in the following respects:</p>
+<ul>
+<li>Threads share a memory space, whereas processes have a separate memory space.  This is an important consideration if you need to share variables or data between tasks.</li>
+<li>Processes have significant overhead compared to threads because data and program state has to be replicated across each process.</li>
+<li>Unlike threads, processes are not constrained to run on a single CPU, so you can execute cpu-bound tasks in parallel on different cores.</li>
+</ul>
+<p>You can learn more about the differences between processes and threads in <a href="https://realpython.com/python-concurrency">this tutorial</a>. David uses python processes in the server by using a process pool.<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>  The relevant lines of code are highlighted below:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="hl"><span class="lnt"> 7
+</span></span><span class="lnt"> 8
+</span><span class="hl"><span class="lnt"> 9
+</span></span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="hl"><span class="lnt">27
+</span></span><span class="hl"><span class="lnt">28
+</span></span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-py" data-lang="py"><span class="c1"># server-3.py</span>
+<span class="c1"># Fib microservice</span>
+
+<span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">fib</span> <span class="kn">import</span> <span class="n">fib</span>
+<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span>
+<span class="hl"><span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span> <span class="k">as</span> <span class="n">Pool</span>
+</span>
+<span class="hl"><span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span>
+<span class="k">def</span> <span class="nf">fib_server</span><span class="p">(</span><span class="n">address</span><span class="p">):</span>
+    <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">)</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">client</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Connection&#34;</span><span class="p">,</span> <span class="n">addr</span><span class="p">)</span>
+        <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">fib_handler</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">client</span><span class="p">,),</span> <span class="n">daemon</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">fib_handler</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">req</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+<span class="hl">        <span class="n">future</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">fib</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+</span><span class="hl">        <span class="n">result</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+</span>        <span class="n">resp</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Closed&#34;</span><span class="p">)</span>
+
+<span class="n">fib_server</span><span class="p">((</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="mi">25000</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>If you then start this version of the server with:</p>
+<blockquote>
+<p>python server-3.py</p>
+</blockquote>
+<p>And run the profiler <a href="https://github.com/dabeaz/concurrencylive/blob/master/perf2.py">perf2.py</a>, we can make the following observations:</p>
+<ol>
+<li>The requests/sec are lower than the thread based version, because there is more overhead required to execute tasks in a pool.</li>
+<li>However, if you also run <a href="https://github.com/dabeaz/concurrencylive/blob/master/perf1.py">perf1.py</a> it will not materially interfere with the first task, as this will not compete for resources on the same CPU.</li>
+</ol>
+<p>This is a realistic example that allow you to gain more intuition about how threads and processes work.</p>
+<h1 id="asynchronous-programming">Asynchronous programming</h1>
+<p>Recall that threads run one task at a time, and the operating system automatically decides when to interrupt each thread to allow the threads to take turns running.  This is called <a href="https://en.wikipedia.org/wiki/Preemption_%28computing%29#Preemptive_multitasking">pre-emptive multitasking</a> since the operating systems, not you, determine when your thread makes the switch.  When you don&rsquo;t care about how tasks are interleaved, threads are great because you don&rsquo;t have to worry about how they are scheduled.</p>
+<p>However, there is third type of concurrency paradigm in Python that allows you to control how this switching occurs: Asynchronous Programming.  This is also called <a href="https://en.wikipedia.org/wiki/Cooperative_multitasking">cooperative multitasking</a> which means each task must announce when it wants to switch. Another term used for cooperative multitasking is a <a href="https://www.geeksforgeeks.org/coroutine-in-python/">coroutine</a>.</p>
+<p>One way to create coroutines in Python is by using the <code>yield</code> statement.  David provides some intuition on how you can achieve multi-tasking with yield in the following code:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-py" data-lang="py"><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
+
+<span class="k">def</span> <span class="nf">countdown</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">while</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">n</span>
+        <span class="n">n</span> <span class="o">-=</span><span class="mi">1</span>
+
+<span class="n">tasks</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">countdown</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">countdown</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">countdown</span><span class="p">(</span><span class="mi">20</span><span class="p">)])</span>
+
+<span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
+    <span class="k">while</span> <span class="n">tasks</span><span class="p">:</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">tasks</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">x</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Task&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>When you run this code, you can see from the output the three countdown tasks are being interleaved:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&gt; run()
+
+10
+5
+20
+9
+4
+19
+8
+3
+18
+...
+</code></pre></td></tr></table>
+</div>
+</div><p>This clever use of <code>yield</code> allows you to pause execution of a task and move onto a different task kind of like threading, except <strong>you</strong>, not the operating system are controlling how compute is interleaved.  This is the key intuition for understanding the rest of the talk, which goes on to to push this example further.</p>
+<p>One of the most popular ways to accomplish async programming is by using the various utilities in the built-in <a href="https://docs.python.org/3/library/asyncio.html">asyncio</a> module, which uses similar yield statements under the hood. I didn&rsquo;t end up diving deeply into the asyncio module or this particular flavor of programming as my goal was to understand the concept so that I wouldn&rsquo;t be lost when encountering this in the wild.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>This talk really helped me learn about various concurrency paradigms in Python: threading, processes, and async using coroutines.  I hope that my commentary helps others follow along easier and get the same benefit that I did from it.</p>
+<h1 id="other-random-things">Other random things</h1>
+<p>In David&rsquo;s code, <a href="https://docs.python.org/3/library/collections.html#collections.deque">deque</a> from the <code>collections</code> module was introduced, which is a very handy data structure not only for async programming but also for threads because they are thread-safe, which means that you don&rsquo;t have to worry about <a href="https://realpython.com/intro-to-python-threading/#race-conditions">race conditions</a>. Similarly, the <a href="https://docs.python.org/3/library/queue.html">queue</a> module provides other types of thread-safe queues.</p>
+<p>Furthermore, one of my favorite python libraries, <a href="https://fastcore.fast.ai/">fastcore</a>, contains a module called <a href="https://fastcore.fast.ai/parallel.html">parallel</a> which makes using threads and processes easy for many use cases.</p>
+<h1 id="resources">Resources</h1>
+<ul>
+<li><a href="https://github.com/dabeaz/concurrencylive">GitHub repo</a> that contains David&rsquo;s code.</li>
+</ul>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>This fibonacci algorithm runs in O(n<sup>2</sup>) time. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>If the <code>monitor</code> task took any meaningful CPU time then the rest of the program would not run as &ldquo;usual&rdquo; because it might be competing for resources.  But that is not the case here. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p>One of the most popular ways of using process pools is with the built-in <a href="https://docs.python.org/3/library/multiprocessing.html">multiprocessing</a> module. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+    </div>
+
+    
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        
+      </nav>
+    </footer>
+  </article>
         </div>
         
+
+  
+
+  
 
       </div>
     </main>
