@@ -14,7 +14,8 @@
       
       <guid>https://concurrency.hamel.dev/</guid>
       <description>Credit:1
-Understand the world of Python concurrency: threads, processes, coroutines and asynchronous programming with a realistic examples. Motivation As a data scientist who is spending more and more time on software engineering, I was recently forced to confront an ugly gap in my knowledge of Python: concurrency. To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together.</description>
+Understand the world of Python concurrency: threads, processes, coroutines and asynchronous programming with a realistic examples.
+Motivation As a data scientist who is spending more time on software engineering, I was recently forced to confront an ugly gap in my knowledge of Python: concurrency. To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together. Whenever I encountered talks or material that mentioned these terms, I was unable to grasp related concepts or follow along.</description>
     </item>
     
   </channel>

@@ -18,11 +18,11 @@ twitter:
 
 ![](cpu.jpg) Credit:[^4]
 
-### Understand the world of Python concurrency: threads, processes, coroutines and asynchronous programming with a realistic examples.
+**Understand the world of Python concurrency: threads, processes, coroutines and asynchronous programming with a realistic examples.**
 
 # Motivation
 
-As [a data scientist who is spending more and more time on software engineering](https://hamel.dev/), I was recently forced to confront an ugly gap in my knowledge of Python: concurrency.  To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together.  Whenever I encountered talks or material that mentioned these terms, I was unable to grasp related concepts or follow along.
+As [a data scientist who is spending more time on software engineering](https://hamel.dev/), I was recently forced to confront an ugly gap in my knowledge of Python: concurrency.  To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together.  Whenever I encountered talks or material that mentioned these terms, I was unable to grasp related concepts or follow along.
 
 Furthermore, I was guilty of incorrectly applying these mechanisms due to my lack of understanding.  For example, I avoided using threads completely in favor of processes all the time.  Most importantly, every time I tried to learn about the subject, the examples were a bit too abstract for me, and I hard time internalizing how everything worked.  
 
@@ -30,15 +30,15 @@ This changed when a friend of mine, [Jeremy Howard](https://www.fast.ai/about/#j
 
 _Because of restrictions with this YouTube video, I couldn't embed [the video](https://youtu.be/MCs5OvhV9S4) in this article, so you will have to open it in a different window_.
 
-This talk is incredibly intimidating at first.  Not only is it coded live from scratch, but it also jumps immediately into socket programming, something that I had never encountered as a data scientist.  However, I was encouraged to take things slow and deeply understand this talk, and attempt to understand each piece bit by bit.  This blog post documents what I learned along the way with the hopes that it will benefit others.
+This talk is incredibly intimidating at first.  Not only is it coded live from scratch, but it also jumps immediately into socket programming, something that I had never encountered as a data scientist.  However, I was encouraged to take things slow and deeply understand this talk, and attempt to understand each piece bit by bit.  This blog post documents what I learned along the way with the hope that it will benefit others.
 
 # Prerequisites
 
-Before getting started, David sets up the following infrastructure that is used to demonstrate threads and concurrency.
+Before getting started, David sets up the following infrastructure that is used to demonstrate concurrency.
 
 ## A cpu-bound task: Fibonacci
 
-To demonstrate concurrency, it is useful to create a task that can saturate your CPU, (such as mathematical operations) for a noticeable period of time.  For this purpose David uses a function that computes a [Fibonacci number](https://en.wikipedia.org/wiki/Fibonacci_number).
+To demonstrate concurrency, it is useful to create a task that can saturate your CPU (such as mathematical operations) for a noticeable period of time.  David uses a function that computes a [Fibonacci number](https://en.wikipedia.org/wiki/Fibonacci_number).
 
 ```py3
 #fib.py
@@ -47,11 +47,11 @@ def fib(n):
     else: return fib(n-1) + fib(n-2)
 ```
 
-This function is useful for threads as it will take much longer for large inputs versus smaller inputs[^1], which allows us to profile different workloads.
+This function takes much longer for large inputs versus smaller inputs[^1], which allows us to profile different workloads.
 
 ## A Simple Web Server
 
-It is also useful to have a real-word task that can benefit from threading.  A web server is one of the best ways to illustrate the benefits of concurrency with both thread and processes.  However, to really demonstrate how things work it is useful to use something that is sufficiently low level enough to see how the pieces work.
+It is also useful to have a real-word task that can benefit from threading.  A web server is one of the best ways to illustrate different types of concurrency.  However, to really demonstrate how things work it is useful to use something that is sufficiently low level enough to see how all the pieces work.
 
 For this, David sets up a web server using socket programming.  If you aren't familiar with socket programming (I'm willing to bet most people are not), please stop reading and complete [this tutorial](https://ruslanspivak.com/lsbaws-part1/).
 
@@ -83,6 +83,7 @@ def fib_handler(client):
     
 fib_server(('', 25000))
 ```
+
 Here is an explanation of this code:
 
 - Lines 6-9 are socket programming boilerplate.  It's ok to just take this for granted as a reasonable way to set up a socket server.  This also matches the [the tutorial](https://ruslanspivak.com/lsbaws-part1/) I linked to above.
@@ -93,7 +94,7 @@ Here is an explanation of this code:
 
 # Testing the non-concurrent code
 
-In the above example, the server will only be able to accept a connection from a single client, because the call to `fib_handler` will never return (because it will run in an infinite loop unless a kill signal is received) which means that `sock.accept()` can only be called once.
+In the above example, the server will only be able to accept a connection from a single client, because the call to `fib_handler` will never return (because it will run in an infinite loop unless a kill signal is received).  This means that `sock.accept()` can only be called once.
 
 You can test this out by first running the server:
 > python server-1.py
@@ -104,7 +105,7 @@ Then establish a client:
 You can type numbers in [as David does in his video](https://youtu.be/MCs5OvhV9S4?t=293) and verifies that fibonacci numbers are returned.  However, if you try to connect with another client at the same time from a different terminal session:
 > telnet localhost 25000
 
-You will notice that the second client just hangs and doesn't return anything from the server.  This is because the server is only able to accept a single connection.  We can solve this with threads:
+You will notice that the second client just hangs and doesn't return anything from the server.  This is because the server is only able to accept a single connection.  Next, we explore how we can tackle this issue.
 
 # Threads
 
@@ -139,7 +140,7 @@ def fib_handler(client):
 fib_server(('', 25000))
 ```
 
-You can verify that this works by connecting two separate clients to the server by running the following command in two separate terminal shells: 
+You can verify that this works by connecting two separate clients to the server by running the following command in two separate terminal windows: 
 > telnet localhost 25000
 
 By executing the `fib_handler` in a thread, the main while loop in `fib_server` will continue, allowing `sock.accept()` to receive additional clients.  
@@ -148,9 +149,9 @@ By executing the `fib_handler` in a thread, the main while loop in `fib_server` 
 
 When code stops execution and waits for an external event to occur (like a connection to be made, or data to be sent), this is often referred to as [blocking](https://stackoverflow.com/questions/2407589/what-does-the-term-blocking-mean-in-programming).
 
-One important utility of Python threads is that it allows you to force blocking process to share CPU resources better.  However, Python thread's share a single CPU due to Python's [Global Interpreter Lock](https://wiki.python.org/moin/GlobalInterpreterLock) (GIL).  
+One important utility of Python threads is that it allows you to force blocking processes to share CPU resources better.  However, Python threads share a single CPU due to Python's [Global Interpreter Lock](https://wiki.python.org/moin/GlobalInterpreterLock) (GIL).  
 
-Therefore, you have to think carefully about what kind of tasks you execute on threads.  If you try to execute CPU bound tasks the tasks will compete with each other and slow each other down.  David demonstrates this with this script that sends a bunch of requests to our threaded server:
+Therefore, you have to think carefully about what kind of tasks you execute on threads.  If you try to execute CPU bound tasks, these tasks will compete with each other and slow each other down.  David demonstrates this with the below script that sends requests to our threaded server:
 
 ```py
 #perf1.py
@@ -215,7 +216,7 @@ Another interesting but less known aspect that David discusses is the relation b
 1. things that take much longer to compute on the CPU, like `fib(30)`, _demonstrated with  [perf1.py](https://github.com/dabeaz/concurrencylive/blob/master/perf1.py)_.
 2. things that compute relatively fast on the CPU, like `fib(1)`, _demonstrated with [perf2.py](https://github.com/dabeaz/concurrencylive/blob/master/perf2.py)_.
 
-The Python GIL will prioritize the first type of task at the expense of the second if they are made to compete for resources with threads.  You can follow along with a demonstration of this [here](https://youtu.be/MCs5OvhV9S4?t=568).  This is interesting because this is the opposite of how typical operating systems prioritize threads (by favoring shorter running tasks) and is something unique to the implementation of the Python GIL.  More importantly, this behavior has a very practical consequence: if you are running a web-server where most tasks are fairly quick, one outlier expensive cpu-bound task can grind everything to a halt.
+The Python GIL will prioritize the first type of task at the expense of the second if they are made to compete for resources in threads.  You can follow along with a demonstration of this [here](https://youtu.be/MCs5OvhV9S4?t=568).  This is interesting because this is the opposite of how typical operating systems prioritize threads (by favoring shorter run fning tasks) and is something unique to the implementation of the Python GIL.  More importantly, this behavior has a very practical consequence: if you are running a web-server where most tasks are fairly quick, one outlier expensive cpu-bound task can grind everything to a halt.
 
 ## Threads are not just about making things faster
 

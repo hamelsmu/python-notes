@@ -50,7 +50,7 @@
 <meta itemprop="description" content="Understanding basic python concurrency through realistic examples.">
 <meta itemprop="datePublished" content="2020-02-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-02-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="2943">
+<meta itemprop="wordCount" content="2927">
 <meta itemprop="image" content="https://concurrency.hamel.dev/cpu.jpg">
 
 
@@ -142,15 +142,6 @@
   <div class="post-toc-content">
     <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#understand-the-world-of-python-concurrency-threads-processes-coroutines-and-asynchronous-programming-with-a-realistic-examples">Understand the world of Python concurrency: threads, processes, coroutines and asynchronous programming with a realistic examples.</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
     <li><a href="#motivation">Motivation</a></li>
     <li><a href="#prerequisites">Prerequisites</a>
       <ul>
@@ -176,17 +167,17 @@
 </div>
     <div class="post-content">
       <p><img src="cpu.jpg" alt=""> Credit:<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
-<h3 id="understand-the-world-of-python-concurrency-threads-processes-coroutines-and-asynchronous-programming-with-a-realistic-examples">Understand the world of Python concurrency: threads, processes, coroutines and asynchronous programming with a realistic examples.</h3>
+<p><strong>Understand the world of Python concurrency: threads, processes, coroutines and asynchronous programming with a realistic examples.</strong></p>
 <h1 id="motivation">Motivation</h1>
-<p>As <a href="https://hamel.dev/">a data scientist who is spending more and more time on software engineering</a>, I was recently forced to confront an ugly gap in my knowledge of Python: concurrency.  To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together.  Whenever I encountered talks or material that mentioned these terms, I was unable to grasp related concepts or follow along.</p>
+<p>As <a href="https://hamel.dev/">a data scientist who is spending more time on software engineering</a>, I was recently forced to confront an ugly gap in my knowledge of Python: concurrency.  To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together.  Whenever I encountered talks or material that mentioned these terms, I was unable to grasp related concepts or follow along.</p>
 <p>Furthermore, I was guilty of incorrectly applying these mechanisms due to my lack of understanding.  For example, I avoided using threads completely in favor of processes all the time.  Most importantly, every time I tried to learn about the subject, the examples were a bit too abstract for me, and I hard time internalizing how everything worked.</p>
 <p>This changed when a friend of mine, <a href="https://www.fast.ai/about/#jeremy">Jeremy Howard</a>, recommended <a href="https://youtu.be/MCs5OvhV9S4">a live coding talk</a> by <a href="https://www.dabeaz.com/">Daivd Beazley</a>, an accomplished Python educator.</p>
 <p><em>Because of restrictions with this YouTube video, I couldn&rsquo;t embed <a href="https://youtu.be/MCs5OvhV9S4">the video</a> in this article, so you will have to open it in a different window</em>.</p>
-<p>This talk is incredibly intimidating at first.  Not only is it coded live from scratch, but it also jumps immediately into socket programming, something that I had never encountered as a data scientist.  However, I was encouraged to take things slow and deeply understand this talk, and attempt to understand each piece bit by bit.  This blog post documents what I learned along the way with the hopes that it will benefit others.</p>
+<p>This talk is incredibly intimidating at first.  Not only is it coded live from scratch, but it also jumps immediately into socket programming, something that I had never encountered as a data scientist.  However, I was encouraged to take things slow and deeply understand this talk, and attempt to understand each piece bit by bit.  This blog post documents what I learned along the way with the hope that it will benefit others.</p>
 <h1 id="prerequisites">Prerequisites</h1>
-<p>Before getting started, David sets up the following infrastructure that is used to demonstrate threads and concurrency.</p>
+<p>Before getting started, David sets up the following infrastructure that is used to demonstrate concurrency.</p>
 <h2 id="a-cpu-bound-task-fibonacci">A cpu-bound task: Fibonacci</h2>
-<p>To demonstrate concurrency, it is useful to create a task that can saturate your CPU, (such as mathematical operations) for a noticeable period of time.  For this purpose David uses a function that computes a <a href="https://en.wikipedia.org/wiki/Fibonacci_number">Fibonacci number</a>.</p>
+<p>To demonstrate concurrency, it is useful to create a task that can saturate your CPU (such as mathematical operations) for a noticeable period of time.  David uses a function that computes a <a href="https://en.wikipedia.org/wiki/Fibonacci_number">Fibonacci number</a>.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -201,9 +192,9 @@
     <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>This function is useful for threads as it will take much longer for large inputs versus smaller inputs<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>, which allows us to profile different workloads.</p>
+</div><p>This function takes much longer for large inputs versus smaller inputs<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>, which allows us to profile different workloads.</p>
 <h2 id="a-simple-web-server">A Simple Web Server</h2>
-<p>It is also useful to have a real-word task that can benefit from threading.  A web server is one of the best ways to illustrate the benefits of concurrency with both thread and processes.  However, to really demonstrate how things work it is useful to use something that is sufficiently low level enough to see how the pieces work.</p>
+<p>It is also useful to have a real-word task that can benefit from threading.  A web server is one of the best ways to illustrate different types of concurrency.  However, to really demonstrate how things work it is useful to use something that is sufficiently low level enough to see how all the pieces work.</p>
 <p>For this, David sets up a web server using socket programming.  If you aren&rsquo;t familiar with socket programming (I&rsquo;m willing to bet most people are not), please stop reading and complete <a href="https://ruslanspivak.com/lsbaws-part1/">this tutorial</a>.</p>
 <p>To begin with, David starts with the below code (I&rsquo;ve highlighted the most interesting bits):</p>
 <div class="highlight"><div class="chroma">
@@ -269,7 +260,7 @@
 <li>Line 21: The server sends a response back to the client.  The code <em>could</em> stop execution on this line if the send buffers are full, but unlikely in this toy example.</li>
 </ul>
 <h1 id="testing-the-non-concurrent-code">Testing the non-concurrent code</h1>
-<p>In the above example, the server will only be able to accept a connection from a single client, because the call to <code>fib_handler</code> will never return (because it will run in an infinite loop unless a kill signal is received) which means that <code>sock.accept()</code> can only be called once.</p>
+<p>In the above example, the server will only be able to accept a connection from a single client, because the call to <code>fib_handler</code> will never return (because it will run in an infinite loop unless a kill signal is received).  This means that <code>sock.accept()</code> can only be called once.</p>
 <p>You can test this out by first running the server:</p>
 <blockquote>
 <p>python server-1.py</p>
@@ -282,7 +273,7 @@
 <blockquote>
 <p>telnet localhost 25000</p>
 </blockquote>
-<p>You will notice that the second client just hangs and doesn&rsquo;t return anything from the server.  This is because the server is only able to accept a single connection.  We can solve this with threads:</p>
+<p>You will notice that the second client just hangs and doesn&rsquo;t return anything from the server.  This is because the server is only able to accept a single connection.  Next, we explore how we can tackle this issue.</p>
 <h1 id="threads">Threads</h1>
 <p>A way to solve this issue is to use threads.  If you haven&rsquo;t encountered threads before, please go through <a href="https://realpython.com/intro-to-python-threading/">this tutorial on threads</a>.</p>
 <p>You can add threads to the handler so that more connections can be accepted by adding the following two lines code highlighted in yellow:</p>
@@ -340,15 +331,15 @@
 <span class="n">fib_server</span><span class="p">((</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">25000</span><span class="p">))</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>You can verify that this works by connecting two separate clients to the server by running the following command in two separate terminal shells:</p>
+</div><p>You can verify that this works by connecting two separate clients to the server by running the following command in two separate terminal windows:</p>
 <blockquote>
 <p>telnet localhost 25000</p>
 </blockquote>
 <p>By executing the <code>fib_handler</code> in a thread, the main while loop in <code>fib_server</code> will continue, allowing <code>sock.accept()</code> to receive additional clients.</p>
 <h2 id="thread-performance--the-gil">Thread performance &amp; the GIL</h2>
 <p>When code stops execution and waits for an external event to occur (like a connection to be made, or data to be sent), this is often referred to as <a href="https://stackoverflow.com/questions/2407589/what-does-the-term-blocking-mean-in-programming">blocking</a>.</p>
-<p>One important utility of Python threads is that it allows you to force blocking process to share CPU resources better.  However, Python thread&rsquo;s share a single CPU due to Python&rsquo;s <a href="https://wiki.python.org/moin/GlobalInterpreterLock">Global Interpreter Lock</a> (GIL).</p>
-<p>Therefore, you have to think carefully about what kind of tasks you execute on threads.  If you try to execute CPU bound tasks the tasks will compete with each other and slow each other down.  David demonstrates this with this script that sends a bunch of requests to our threaded server:</p>
+<p>One important utility of Python threads is that it allows you to force blocking processes to share CPU resources better.  However, Python threads share a single CPU due to Python&rsquo;s <a href="https://wiki.python.org/moin/GlobalInterpreterLock">Global Interpreter Lock</a> (GIL).</p>
+<p>Therefore, you have to think carefully about what kind of tasks you execute on threads.  If you try to execute CPU bound tasks, these tasks will compete with each other and slow each other down.  David demonstrates this with the below script that sends requests to our threaded server:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -456,7 +447,7 @@
 <li>things that take much longer to compute on the CPU, like <code>fib(30)</code>, <em>demonstrated with  <a href="https://github.com/dabeaz/concurrencylive/blob/master/perf1.py">perf1.py</a></em>.</li>
 <li>things that compute relatively fast on the CPU, like <code>fib(1)</code>, <em>demonstrated with <a href="https://github.com/dabeaz/concurrencylive/blob/master/perf2.py">perf2.py</a></em>.</li>
 </ol>
-<p>The Python GIL will prioritize the first type of task at the expense of the second if they are made to compete for resources with threads.  You can follow along with a demonstration of this <a href="https://youtu.be/MCs5OvhV9S4?t=568">here</a>.  This is interesting because this is the opposite of how typical operating systems prioritize threads (by favoring shorter running tasks) and is something unique to the implementation of the Python GIL.  More importantly, this behavior has a very practical consequence: if you are running a web-server where most tasks are fairly quick, one outlier expensive cpu-bound task can grind everything to a halt.</p>
+<p>The Python GIL will prioritize the first type of task at the expense of the second if they are made to compete for resources in threads.  You can follow along with a demonstration of this <a href="https://youtu.be/MCs5OvhV9S4?t=568">here</a>.  This is interesting because this is the opposite of how typical operating systems prioritize threads (by favoring shorter run fning tasks) and is something unique to the implementation of the Python GIL.  More importantly, this behavior has a very practical consequence: if you are running a web-server where most tasks are fairly quick, one outlier expensive cpu-bound task can grind everything to a halt.</p>
 <h2 id="threads-are-not-just-about-making-things-faster">Threads are not just about making things faster</h2>
 <p>It is tempting to think of threads as a tool to make things run faster, but that&rsquo;s not the only use case.  Recall that the socket server used threads to allow multiple connections at once without any speedup.  David illustrates another way to use threads with his code used to measure the runtime of short-running tasks:</p>
 <p><a href="https://github.com/dabeaz/concurrencylive/blob/master/perf2.py">perf2.py</a>:</p>
