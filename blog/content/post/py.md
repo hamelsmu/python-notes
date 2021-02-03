@@ -12,23 +12,23 @@ Understand the world of Python concurrency: threads, processes, coroutines and a
 
 # Motivation
 
-As a data scientist who is spending more and more time on software engineering, I was recently forced to confront an ugly gap in my knowledge of Python: concurrency.  To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together.  Whenever I encountered talks or material that mentioned these terms, I was unable to grasp related concepts or follow along.
+As [a data scientist who is spending more and more time on software engineering](https://hamel.dev/), I was recently forced to confront an ugly gap in my knowledge of Python: concurrency.  To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together.  Whenever I encountered talks or material that mentioned these terms, I was unable to grasp related concepts or follow along.
 
 Furthermore, I was guilty of incorrectly applying these mechanisms due to my lack of understanding.  For example, I avoided using threads completely in favor of processes all the time.  Most importantly, every time I tried to learn about the subject, the examples were a bit too abstract for me, and I hard time internalizing how everything worked.  
 
-This changed when a friend of mine, [Jeremy Howard](https://www.fast.ai/about/#jeremy) kept recommending [a live coding talk](https://youtu.be/MCs5OvhV9S4) by [Daivd Beazley](https://www.dabeaz.com/), an accomplished Python educator.  
+This changed when a friend of mine, [Jeremy Howard](https://www.fast.ai/about/#jeremy), recommended [a live coding talk](https://youtu.be/MCs5OvhV9S4) by [Daivd Beazley](https://www.dabeaz.com/), an accomplished Python educator.  
 
 _Because of restrictions with this YouTube video, I couldn't embed [the video](https://youtu.be/MCs5OvhV9S4) in this article, so you will have to open it in a different window_.
 
 This talk is incredibly intimidating at first.  Not only is it coded live from scratch, but it also jumps immediately into socket programming, something that I had never encountered as a data scientist.  However, I was encouraged to take things slow and deeply understand this talk, and attempt to understand each piece bit by bit.  This blog post documents what I learned along the way with the hopes that it will benefit others.
 
-# Pre-requisites
+# Prerequisites
 
 Before getting started, David sets up the following infrastructure that is used to demonstrate threads and concurrency.
 
 ## A cpu-bound task: Fibonacci
 
-To demonstrate concurrency, it is useful to create a task that can saturate your CPU, (such as mathematical operations) for a noticeable period of time.  For this purpose he uses a function that computes a [Fibonacci number](https://en.wikipedia.org/wiki/Fibonacci_number).
+To demonstrate concurrency, it is useful to create a task that can saturate your CPU, (such as mathematical operations) for a noticeable period of time.  For this purpose David uses a function that computes a [Fibonacci number](https://en.wikipedia.org/wiki/Fibonacci_number).
 
 ```py3
 #fib.py
@@ -41,9 +41,9 @@ This function is useful for threads as it will take much longer for large inputs
 
 ## A Simple Web Server
 
-It is also useful to have a real-word task that can benefit from threading.  For reasons discussed later in this blog post, a web server is one of the best ways to illustrate the benefits of concurrency with both thread and processes.  However, to really demonstrate how things work it is useful to use something that is sufficiently low level enough to see how the pieces work.
+It is also useful to have a real-word task that can benefit from threading.  A web server is one of the best ways to illustrate the benefits of concurrency with both thread and processes.  However, to really demonstrate how things work it is useful to use something that is sufficiently low level enough to see how the pieces work.
 
-For this, David sets up a web server using socket programming.  If you aren't familiar with socket programming (I'm willing to bet most people are not), please stop reading and complete [this tutorial](https://ruslanspivak.com/lsbaws-part1/). 
+For this, David sets up a web server using socket programming.  If you aren't familiar with socket programming (I'm willing to bet most people are not), please stop reading and complete [this tutorial](https://ruslanspivak.com/lsbaws-part1/).
 
 To begin with, David starts with the below code (I've highlighted the most interesting bits):
 
@@ -76,9 +76,9 @@ fib_server(('', 25000))
 Here is an explanation of this code:
 
 - Lines 6-9 are socket programming boilerplate.  It's ok to just take this for granted as a reasonable way to set up a socket server.  This also matches the [the tutorial](https://ruslanspivak.com/lsbaws-part1/) I linked to above.
-- Line 11 waits for an incoming connection from a client.  Once a connection is made, the client can then send data to the server.  The code will stop execution on this line until a connection is made.
+- Line 11 waits for an incoming connection from a client.  Once a connection is made, the server can begin receiving data from a client.  The code will stop execution on this line until a connection is made.
 - Line 13: Once a connection is established, the client object is passed to a function which can handle data sent by the client.
-- Line 17: waits for data to be sent by the client.  The code will stop execution on this line until data is received by the client.
+- Line 17: waits for data to be sent by the client.  The code will stop execution on this line until data is received from the client.
 - Line 21: The server sends a response back to the client.  The code _could_ stop execution on this line if the send buffers are full, but unlikely in this toy example.
 
 # Testing the non-concurrent code
@@ -136,11 +136,11 @@ By executing the `fib_handler` in a thread, the main while loop in `fib_server` 
 
 ## Thread performance & the GIL
 
-When code stops execution and waits for an external event to occur (like a connection to be made, or data to be sent), is often referred to as [blocking](https://stackoverflow.com/questions/2407589/what-does-the-term-blocking-mean-in-programming).
+When code stops execution and waits for an external event to occur (like a connection to be made, or data to be sent), this is often referred to as [blocking](https://stackoverflow.com/questions/2407589/what-does-the-term-blocking-mean-in-programming).
 
-One important utility of Python threads is that it allows you to force blocking process to share CPU resources better.  However, python thread's share a single CPU due to Python's [Global Interpreter Lock](https://wiki.python.org/moin/GlobalInterpreterLock) (GIL).  
+One important utility of Python threads is that it allows you to force blocking process to share CPU resources better.  However, Python thread's share a single CPU due to Python's [Global Interpreter Lock](https://wiki.python.org/moin/GlobalInterpreterLock) (GIL).  
 
-Therefore you have to think carefully about what kind of tasks you execute on threads.  If you try to execute CPU bound tasks the tasks will compete with each other and slow each other down.  David demonstrates this with this script that sends a bunch of requests to our threaded server:
+Therefore, you have to think carefully about what kind of tasks you execute on threads.  If you try to execute CPU bound tasks the tasks will compete with each other and slow each other down.  David demonstrates this with this script that sends a bunch of requests to our threaded server:
 
 ```py
 #perf1.py
@@ -241,7 +241,7 @@ while True:
 
 In this case David uses a single thread with blocking call to `sleep(1)` to make sure that `monitor`  only prints out a metric once per second, while allowing the rest of the program to send requests hundreds of times per second.  In other words, this is a clever use of threads and blocking that allow a part of the program to run at a specified time interval while allowing the rest of your program to run as usual. [^2]  
 
-These different angles of looking at threads allowed me to understand threads more holistically.  Threads are not only about making certain things run faster or in parallel, but also allows you to control how your program is executed.
+These different angles of looking at threads allowed me to understand threads more holistically.  Threads are not only about making certain things run faster or run in parallel, but also allows you to control how your program is executed.
 
 # Processes For CPU Bound Tasks
 
@@ -251,10 +251,7 @@ One way to solve the problem with the GIL and cpu-bound tasks competing for reso
 - Processes have significant overhead compared to threads because data and program state has to be replicated across each process.
 - Unlike threads, processes are not constrained to run on a single CPU, so you can execute cpu-bound tasks in parallel on different cores.
 
-You can learn more about the differences between processes and threads in [this tutorial](https://realpython.com/python-concurrency).
-
-
-David uses python processes in the server by using a process pool.[^3]  The relevant lines of code are highlighted below:
+You can learn more about the differences between processes and threads in [this tutorial](https://realpython.com/python-concurrency). David uses python processes in the server by using a process pool.[^3]  The relevant lines of code are highlighted below:
 
 ```py {hl_lines=[7, 9, "27-28"]}
 # server-3.py
@@ -300,13 +297,13 @@ And run the profiler [perf2.py](https://github.com/dabeaz/concurrencylive/blob/m
 1. The requests/sec are lower than the thread based version, because there is more overhead required to execute tasks in a pool.
 2. However, if you also run [perf1.py](https://github.com/dabeaz/concurrencylive/blob/master/perf1.py) it will not materially interfere with the first task, as this will not compete for resources on the same CPU.
 
-This is amazing, as this is a realistic example that allow you to gain more intuition about what threads and processes are and how they work.
+This is a realistic example that allow you to gain more intuition about how threads and processes work.
 
 # Asynchronous programming
 
 Recall that threads run one task at a time, and the operating system automatically decides when to interrupt each thread to allow the threads to take turns running.  This is called [pre-emptive multitasking](https://en.wikipedia.org/wiki/Preemption_%28computing%29#Preemptive_multitasking) since the operating systems, not you, determine when your thread makes the switch.  When you don't care about how tasks are interleaved, threads are great because you don't have to worry about how they are scheduled.
 
-However, there is third type of concurrency paradigm in Python that allows you to control how this switching occurs: Asynchronous Programming.  This is called [cooperative multitasking](https://en.wikipedia.org/wiki/Cooperative_multitasking) which means each task must announce when it wants to switch. Another term used for cooperative multitasking is [coroutine](https://www.geeksforgeeks.org/coroutine-in-python/).  
+However, there is third type of concurrency paradigm in Python that allows you to control how this switching occurs: Asynchronous Programming.  This is also called [cooperative multitasking](https://en.wikipedia.org/wiki/Cooperative_multitasking) which means each task must announce when it wants to switch. Another term used for cooperative multitasking is a [coroutine](https://www.geeksforgeeks.org/coroutine-in-python/).
 
 One way to create coroutines in Python is by using the `yield` statement.  David provides some intuition on how you can achieve multi-tasking with yield in the following code:
 
@@ -334,6 +331,8 @@ def run():
 When you run this code, you can see from the output the three countdown tasks are being interleaved:
 
 ```
+> run()
+
 10
 5
 20
@@ -346,9 +345,9 @@ When you run this code, you can see from the output the three countdown tasks ar
 ...
 ```
 
-What happens is that this clever use of `yield` allows you to stop execution of a task, and move onto a different task while still allowing you to come back to that task later, kind of like threading, except **you**, not the operating system are controlling how compute is interleaved.  This is the key intuition for understanding the rest of the talk, which goes on to to push this example further.
+This clever use of `yield` allows you to pause execution of a task and move onto a different task kind of like threading, except **you**, not the operating system are controlling how compute is interleaved.  This is the key intuition for understanding the rest of the talk, which goes on to to push this example further.
 
-One of the most popular ways to accomplish async programming is by using the various utilities in the built-in [asyncio](https://docs.python.org/3/library/asyncio.html) module, which uses yield statements in a pattern similar to what David describes in his talk under the hood. I didn't end up diving deeply into the asyncio module or this particular flavor of programming as my goal was to understand the concept so that I wouldn't be lost when encountering this in the wild.
+One of the most popular ways to accomplish async programming is by using the various utilities in the built-in [asyncio](https://docs.python.org/3/library/asyncio.html) module, which uses similar yield statements under the hood. I didn't end up diving deeply into the asyncio module or this particular flavor of programming as my goal was to understand the concept so that I wouldn't be lost when encountering this in the wild.
 
 # Conclusion
 
@@ -360,6 +359,9 @@ In David's code, [deque](https://docs.python.org/3/library/collections.html#coll
 
 Furthermore, one of my favorite python libraries, [fastcore](https://fastcore.fast.ai/), contains a module called [parallel](https://fastcore.fast.ai/parallel.html) which makes using threads and processes easy for many use cases.  
 
+# Resources
+
+- [GitHub repo](https://github.com/dabeaz/concurrencylive) that contains David's code.
 
 [^1]: This fibonacci algorithm runs in O(n<sup>2</sup>) time.
 [^2]: If the `monitor` task took any meaningful CPU time then the rest of the program would not run as "usual" because it might be competing for resources.  But that is not the case here.
