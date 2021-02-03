@@ -12,7 +12,8 @@ twitter:
 - card: "summary_large_image"
 - site: "@hamelhusain"
 - creator: "@hamelhusain"
-- image: "cpu.jpg"
+- image: "cpu.png"
+- images: ["cpu.jpg"]
 ---
 
 ![](cpu.jpg) Credit:[^4]
