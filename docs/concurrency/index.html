@@ -50,7 +50,7 @@
 <meta itemprop="description" content="An exploration of threads, processes, and coroutines in Python, with interesting examples that illuminate the differences between each.">
 <meta itemprop="datePublished" content="2020-02-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-02-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="3049">
+<meta itemprop="wordCount" content="3108">
 <meta itemprop="image" content="https://python.hamel.dev/cpu.jpg">
 
 
@@ -390,8 +390,8 @@
 <pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
+</span><span class="hl"><span class="lnt"> 4
+</span></span><span class="lnt"> 5
 </span><span class="lnt"> 6
 </span><span class="hl"><span class="lnt"> 7
 </span></span><span class="lnt"> 8
@@ -415,16 +415,18 @@
 </span><span class="lnt">26
 </span><span class="lnt">27
 </span><span class="lnt">28
+</span><span class="lnt">29
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-py" data-lang="py"><span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">import</span> <span class="nn">time</span>
-
+<span class="hl"><span class="kn">import</span> <span class="nn">fib</span>
+</span>
 <span class="k">def</span> <span class="nf">thread_function</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Thread </span><span class="si">%s</span><span class="s2">: starting&#34;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-<span class="hl">    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1">## Change this line of code to fib(20)</span>
-</span>    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Thread </span><span class="si">%s</span><span class="s2">: finishing&#34;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+<span class="hl">    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Thread </span><span class="si">%s</span><span class="s2">: starting&#34;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+</span>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1">## Change this line of code to fib(20)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Thread </span><span class="si">%s</span><span class="s2">: finishing&#34;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
     <span class="n">format</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="si">%(asctime)s</span><span class="s2">: </span><span class="si">%(message)s</span><span class="s2">&#34;</span>
@@ -455,7 +457,7 @@
 </ol>
 <p>The Python GIL will prioritize the first type of task at the expense of the second if they are made to compete for resources in threads.  You can follow along with a demonstration of this <a href="https://youtu.be/MCs5OvhV9S4?t=568">here</a>.  This is interesting because this is the opposite of how typical operating systems prioritize threads (by favoring shorter run fning tasks) and is something unique to the implementation of the Python GIL.  More importantly, this behavior has a very practical consequence: if you are running a web-server where most tasks are fairly quick, one outlier expensive cpu-bound task can grind everything to a halt.</p>
 <h2 id="threads-are-not-just-about-making-things-faster">Threads are not just about making things faster</h2>
-<p>It is tempting to think of threads as a tool to make things run faster, but that&rsquo;s not the only use case.  Recall that the socket server used threads to allow multiple connections at once without any speedup.  David illustrates another way to use threads with his code used to measure the runtime of short-running tasks:</p>
+<p>It is tempting to think of Python threads as a tool to make things run faster, but that&rsquo;s not the only use case.  Recall that the socket server used threads to allow multiple connections at once without any speedup.  David illustrates another way to use threads with his code used to measure the runtime of short-running tasks:</p>
 <p><a href="https://github.com/dabeaz/concurrencylive/blob/master/perf2.py">perf2.py</a>:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -516,9 +518,9 @@
 <h1 id="processes-for-cpu-bound-tasks">Processes For CPU Bound Tasks</h1>
 <p>One way to solve the problem with the GIL and cpu-bound tasks competing for resources is to use processes instead of threads.  Processes are different from threads in the following respects:</p>
 <ul>
-<li>Threads share a memory space, whereas processes have a separate memory space.  This is an important consideration if you need to share variables or data between tasks.</li>
+<li>Python threads share a memory space, whereas processes have a separate memory space.  This is an important consideration if you need to share variables or data between tasks.</li>
 <li>Processes have significant overhead compared to threads because data and program state has to be replicated across each process.</li>
-<li>Unlike threads, processes are not constrained to run on a single CPU, so you can execute cpu-bound tasks in parallel on different cores.</li>
+<li>Unlike Python threads, processes are not constrained to run on a single CPU, so you can execute cpu-bound tasks in parallel on different cores.</li>
 </ul>
 <p>You can learn more about the differences between processes and threads in <a href="https://realpython.com/python-concurrency">this tutorial</a>. David uses python processes in the server by using a process pool.<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>  The relevant lines of code are highlighted below:</p>
 <div class="highlight"><div class="chroma">
@@ -600,7 +602,7 @@
 <p>And run the profiler <a href="https://github.com/dabeaz/concurrencylive/blob/master/perf2.py">perf2.py</a>, we can make the following observations:</p>
 <ol>
 <li>The requests/sec are lower than the thread based version, because there is more overhead required to execute tasks in a pool.</li>
-<li>However, if you also run <a href="https://github.com/dabeaz/concurrencylive/blob/master/perf1.py">perf1.py</a> it will not materially interfere with the first task, as this will not compete for resources on the same CPU.</li>
+<li>However, if you also run <a href="https://github.com/dabeaz/concurrencylive/blob/master/perf1.py">perf1.py</a> it will not materially interfere with the first task (from <code>perf2.py</code>), as this will not compete for resources on the same CPU.</li>
 </ol>
 <p>This is a realistic example that allow you to gain more intuition about how threads and processes work.</p>
 <h1 id="asynchronous-programming">Asynchronous programming</h1>
@@ -683,8 +685,9 @@
 </div><p>This clever use of <code>yield</code> allows you to pause execution of a task and move onto a different task kind of like threading, except <strong>you</strong>, not the operating system are controlling how compute is interleaved.  This is the key intuition for understanding the rest of the talk, which goes on to to push this example further.</p>
 <p>One of the most popular ways to accomplish async programming is by using the various utilities in the built-in <a href="https://docs.python.org/3/library/asyncio.html">asyncio</a> module, which uses similar yield statements under the hood. I didn&rsquo;t end up diving deeply into the asyncio module or this particular flavor of programming as my goal was to understand the concept so that I wouldn&rsquo;t be lost when encountering this in the wild.</p>
 <h1 id="conclusion">Conclusion</h1>
-<p>I was so impressed by this talk, that I decided to enroll in David&rsquo;s <a href="https://www.dabeaz.com/advprog.html">Advanced Python class</a>.  David offers a number of <a href="https://www.dabeaz.com/index.html">interesting courses</a> for programmers.  I never would have anticipating signing up for this class, but there is something really unique about the depth of David&rsquo;s knowledge.  I will write other blog posts documenting the things I learn on <a href="https://python.hamel.dev">this blog</a>.</p>
+<p>I was so impressed by this talk, that I decided to enroll in David&rsquo;s <a href="https://www.dabeaz.com/advprog.html">Advanced Python class</a>.  David offers a number of <a href="https://www.dabeaz.com/index.html">interesting courses</a> for programmers.  I never would have anticipated signing up for this class, but there is something really unique about the depth of David&rsquo;s knowledge.  I will write other blog posts documenting the things I learn on <a href="https://python.hamel.dev">this blog</a>.</p>
 <h1 id="other-random-things">Other random things</h1>
+<p>Not all programs that run in Python using threads are limited to a single CPU.  It is possible to escape the constraints of the GIL by carefully writing C code that has a Python interface.  This is what popular scientific computing libraries such as <a href="https://scipy.github.io/old-wiki/pages/ParallelProgramming">NumPy and SciPy</a> do to achieve parallelism.</p>
 <p>In David&rsquo;s code, <a href="https://docs.python.org/3/library/collections.html#collections.deque">deque</a> from the <code>collections</code> module was introduced, which is a very handy data structure not only for async programming but also for threads because they are thread-safe, which means that you don&rsquo;t have to worry about <a href="https://realpython.com/intro-to-python-threading/#race-conditions">race conditions</a>. Similarly, the <a href="https://docs.python.org/3/library/queue.html">queue</a> module provides other types of thread-safe queues.</p>
 <p>Furthermore, one of my favorite python libraries, <a href="https://fastcore.fast.ai/">fastcore</a>, contains a module called <a href="https://fastcore.fast.ai/parallel.html">parallel</a> which makes using threads and processes easy for many use cases.</p>
 <h1 id="resources--thanks">Resources &amp; Thanks</h1>

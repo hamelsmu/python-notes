@@ -180,10 +180,11 @@ Python threads work by interleaving the execution of different tasks on your CPU
 
 To check my understanding about threads and performance, I edited [this code](https://realpython.com/intro-to-python-threading/#working-with-many-threads) from the tutorial on threads mentioned to above, and changed `time.sleep(2)` to `fib(20)` and back again:
 
-```py {hl_lines=[7]}
+```py {hl_lines=[4,7]}
 import logging
 import threading
 import time
+import fib
 
 def thread_function(name):
     logging.info("Thread %s: starting", name)
@@ -222,7 +223,7 @@ The Python GIL will prioritize the first type of task at the expense of the seco
 
 ## Threads are not just about making things faster
 
-It is tempting to think of threads as a tool to make things run faster, but that's not the only use case.  Recall that the socket server used threads to allow multiple connections at once without any speedup.  David illustrates another way to use threads with his code used to measure the runtime of short-running tasks: 
+It is tempting to think of Python threads as a tool to make things run faster, but that's not the only use case.  Recall that the socket server used threads to allow multiple connections at once without any speedup.  David illustrates another way to use threads with his code used to measure the runtime of short-running tasks: 
 
 [perf2.py](https://github.com/dabeaz/concurrencylive/blob/master/perf2.py):
 ```py {hl_lines=[12, 19]}
@@ -260,9 +261,9 @@ These different angles of looking at threads allowed me to understand threads mo
 
 One way to solve the problem with the GIL and cpu-bound tasks competing for resources is to use processes instead of threads.  Processes are different from threads in the following respects:
 
-- Threads share a memory space, whereas processes have a separate memory space.  This is an important consideration if you need to share variables or data between tasks.
+- Python threads share a memory space, whereas processes have a separate memory space.  This is an important consideration if you need to share variables or data between tasks.
 - Processes have significant overhead compared to threads because data and program state has to be replicated across each process.
-- Unlike threads, processes are not constrained to run on a single CPU, so you can execute cpu-bound tasks in parallel on different cores.
+- Unlike Python threads, processes are not constrained to run on a single CPU, so you can execute cpu-bound tasks in parallel on different cores.
 
 You can learn more about the differences between processes and threads in [this tutorial](https://realpython.com/python-concurrency). David uses python processes in the server by using a process pool.[^3]  The relevant lines of code are highlighted below:
 
@@ -308,7 +309,7 @@ If you then start this version of the server with:
 And run the profiler [perf2.py](https://github.com/dabeaz/concurrencylive/blob/master/perf2.py), we can make the following observations:
 
 1. The requests/sec are lower than the thread based version, because there is more overhead required to execute tasks in a pool.
-2. However, if you also run [perf1.py](https://github.com/dabeaz/concurrencylive/blob/master/perf1.py) it will not materially interfere with the first task, as this will not compete for resources on the same CPU.
+2. However, if you also run [perf1.py](https://github.com/dabeaz/concurrencylive/blob/master/perf1.py) it will not materially interfere with the first task (from `perf2.py`), as this will not compete for resources on the same CPU.
 
 This is a realistic example that allow you to gain more intuition about how threads and processes work.
 
@@ -364,9 +365,11 @@ One of the most popular ways to accomplish async programming is by using the var
 
 # Conclusion
 
-I was so impressed by this talk, that I decided to enroll in David's [Advanced Python class](https://www.dabeaz.com/advprog.html).  David offers a number of [interesting courses](https://www.dabeaz.com/index.html) for programmers.  I never would have anticipating signing up for this class, but there is something really unique about the depth of David's knowledge.  I will write other blog posts documenting the things I learn on [this blog](https://python.hamel.dev).
+I was so impressed by this talk, that I decided to enroll in David's [Advanced Python class](https://www.dabeaz.com/advprog.html).  David offers a number of [interesting courses](https://www.dabeaz.com/index.html) for programmers.  I never would have anticipated signing up for this class, but there is something really unique about the depth of David's knowledge.  I will write other blog posts documenting the things I learn on [this blog](https://python.hamel.dev).
 
 # Other random things
+
+Not all programs that run in Python using threads are limited to a single CPU.  It is possible to escape the constraints of the GIL by carefully writing C code that has a Python interface.  This is what popular scientific computing libraries such as [NumPy and SciPy](https://scipy.github.io/old-wiki/pages/ParallelProgramming) do to achieve parallelism.
 
 In David's code, [deque](https://docs.python.org/3/library/collections.html#collections.deque) from the `collections` module was introduced, which is a very handy data structure not only for async programming but also for threads because they are thread-safe, which means that you don't have to worry about [race conditions](https://realpython.com/intro-to-python-threading/#race-conditions). Similarly, the [queue](https://docs.python.org/3/library/queue.html) module provides other types of thread-safe queues.
 
