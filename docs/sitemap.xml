@@ -15,7 +15,21 @@
   </url>
   
   <url>
+    <loc>https://python.hamel.dev/categories/</loc>
+    <lastmod>2020-02-05T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://python.hamel.dev/tags/concurrency/</loc>
+    <lastmod>2020-02-05T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://python.hamel.dev/categories/concurrency/</loc>
     <lastmod>2020-02-05T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -38,12 +52,6 @@
   <url>
     <loc>https://python.hamel.dev/tags/</loc>
     <lastmod>2020-02-05T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://python.hamel.dev/categories/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

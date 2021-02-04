@@ -50,7 +50,7 @@
 <meta itemprop="description" content="Understanding basic python concurrency through realistic examples.">
 <meta itemprop="datePublished" content="2020-02-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-02-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="2971">
+<meta itemprop="wordCount" content="3047">
 <meta itemprop="image" content="https://python.hamel.dev/cpu.jpg">
 
 
@@ -136,7 +136,9 @@
         <span class="post-time"> 2020-02-05 </span>
 
 
-        
+        <div class="post-category">
+            <a href="/categories/concurrency/"> concurrency </a>
+            </div>
         
       </div>
     </header>
@@ -164,18 +166,24 @@
     <li><a href="#asynchronous-programming">Asynchronous programming</a></li>
     <li><a href="#conclusion">Conclusion</a></li>
     <li><a href="#other-random-things">Other random things</a></li>
-    <li><a href="#resources">Resources</a></li>
+    <li><a href="#resources--thanks">Resources &amp; Thanks</a></li>
   </ul>
 </nav>
   </div>
-</div>
+</div><div style="text-align: right">
+      <a href="https://github.com/hamelsmu/python-notes/tree/master/blog/content/post/py.md" role="button" target="_blank">
+    <img class="notebook-badge-image" src="/github.svg" alt="Edit On GitHub">
+</a>
+    </div>
+
+    
     <div class="post-content">
       <p><img src="/cpu.jpg" alt=""> Credit:<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
 <p><strong>Understand the world of Python concurrency: threads, processes, coroutines and asynchronous programming with a realistic examples.</strong></p>
 <h1 id="motivation">Motivation</h1>
 <p>As <a href="https://hamel.dev/">a data scientist who is spending more time on software engineering</a>, I was recently forced to confront an ugly gap in my knowledge of Python: concurrency.  To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together.  Whenever I encountered talks or material that mentioned these terms, I was unable to grasp related concepts or follow along.</p>
 <p>Furthermore, I was guilty of incorrectly applying these mechanisms due to my lack of understanding.  For example, I avoided using threads completely in favor of processes all the time.  Most importantly, every time I tried to learn about the subject, the examples were a bit too abstract for me, and I hard time internalizing how everything worked.</p>
-<p>This changed when a friend of mine, <a href="https://www.fast.ai/about/#jeremy">Jeremy Howard</a>, recommended <a href="https://youtu.be/MCs5OvhV9S4">a live coding talk</a> by <a href="https://www.dabeaz.com/">Daivd Beazley</a>, an accomplished Python educator.</p>
+<p>This changed when a friend of mine<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> recommended <a href="https://youtu.be/MCs5OvhV9S4">a live coding talk</a> by <a href="https://www.dabeaz.com/">Daivd Beazley</a>, an accomplished Python educator.</p>
 <p><em>Because of restrictions with this YouTube video, I couldn&rsquo;t embed <a href="https://youtu.be/MCs5OvhV9S4">the video</a> in this article, so you will have to open it in a different window</em>.</p>
 <p>This talk is incredibly intimidating at first.  Not only is it coded live from scratch, but it also jumps immediately into socket programming, something that I had never encountered as a data scientist.  However, I was encouraged to take things slow and deeply understand this talk, and attempt to understand each piece bit by bit.  This blog post documents what I learned along the way with the hope that it will benefit others.</p>
 <h1 id="prerequisites">Prerequisites</h1>
@@ -196,7 +204,7 @@
     <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>This function takes much longer for large inputs versus smaller inputs<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>, which allows us to profile different workloads.</p>
+</div><p>This function takes much longer for large inputs versus smaller inputs<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>, which allows us to profile different workloads.</p>
 <h2 id="a-simple-web-server">A Simple Web Server</h2>
 <p>It is also useful to have a real-word task that can benefit from threading.  A web server is one of the best ways to illustrate different types of concurrency.  However, to really demonstrate how things work it is useful to use something that is sufficiently low level enough to see how all the pieces work.</p>
 <p>For this, David sets up a web server using socket programming.  If you aren&rsquo;t familiar with socket programming (I&rsquo;m willing to bet most people are not), please stop reading and complete <a href="https://ruslanspivak.com/lsbaws-part1/">this tutorial</a>.</p>
@@ -381,7 +389,7 @@
 <p>python perf1.py</p>
 </blockquote>
 <p>You will see the execution times for each script linearly increase as you increase the number of these scripts running in parallel.  <strong>For this particular task, adding threads does not make anything faster.  But why?</strong>  This is because the fibonacci task is CPU bound so threads will compete with each other for resources on the same CPU core.</p>
-<p>Python threads work by interleaving the execution of different tasks on your CPU.<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>  Only one thread runs at a time, and have the ability to take turns executing in small bits until all threads are done.  The details of how this processing is interleaved (if interleaved at all) is carried out by the GIL and your operating system, so you need not worry about how this happens (with one exception mentioned below).  Because you are restricted to a single CPU core in Python, interleaving a bunch of CPU bound tasks will not speed up the total runtime of those tasks.  However, if your tasks involve lots of non-CPU time, such as waiting for network connections, or disk I/O, threading tasks may result in a considerable speedup.  A canonical way of simulating a non-cpu bound task in python is to use the built-in function <code>time.sleep()</code>.</p>
+<p>Python threads work by interleaving the execution of different tasks on your CPU.<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>  Only one thread runs at a time, and have the ability to take turns executing in small bits until all threads are done.  The details of how this processing is interleaved (if interleaved at all) is carried out by the GIL and your operating system, so you need not worry about how this happens (with one exception mentioned below).  Because you are restricted to a single CPU core in Python, interleaving a bunch of CPU bound tasks will not speed up the total runtime of those tasks.  However, if your tasks involve lots of non-CPU time, such as waiting for network connections, or disk I/O, threading tasks may result in a considerable speedup.  A canonical way of simulating a non-cpu bound task in python is to use the built-in function <code>time.sleep()</code>.</p>
 <p>To check my understanding about threads and performance, I edited <a href="https://realpython.com/intro-to-python-threading/#working-with-many-threads">this code</a> from the tutorial on threads mentioned to above, and changed <code>time.sleep(2)</code> to <code>fib(20)</code> and back again:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -509,7 +517,7 @@
     <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>In this case David uses a single thread with blocking call to <code>sleep(1)</code> to make sure that <code>monitor</code>  only prints out a metric once per second, while allowing the rest of the program to send requests hundreds of times per second.  In other words, this is a clever use of threads and blocking that allow a part of the program to run at a specified time interval while allowing the rest of your program to run as usual. <sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+</div><p>In this case David uses a single thread with blocking call to <code>sleep(1)</code> to make sure that <code>monitor</code>  only prints out a metric once per second, while allowing the rest of the program to send requests hundreds of times per second.  In other words, this is a clever use of threads and blocking that allow a part of the program to run at a specified time interval while allowing the rest of your program to run as usual. <sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></p>
 <p>These different angles of looking at threads allowed me to understand threads more holistically.  Threads are not only about making certain things run faster or run in parallel, but also allows you to control how your program is executed.</p>
 <h1 id="processes-for-cpu-bound-tasks">Processes For CPU Bound Tasks</h1>
 <p>One way to solve the problem with the GIL and cpu-bound tasks competing for resources is to use processes instead of threads.  Processes are different from threads in the following respects:</p>
@@ -518,7 +526,7 @@
 <li>Processes have significant overhead compared to threads because data and program state has to be replicated across each process.</li>
 <li>Unlike threads, processes are not constrained to run on a single CPU, so you can execute cpu-bound tasks in parallel on different cores.</li>
 </ul>
-<p>You can learn more about the differences between processes and threads in <a href="https://realpython.com/python-concurrency">this tutorial</a>. David uses python processes in the server by using a process pool.<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>  The relevant lines of code are highlighted below:</p>
+<p>You can learn more about the differences between processes and threads in <a href="https://realpython.com/python-concurrency">this tutorial</a>. David uses python processes in the server by using a process pool.<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>  The relevant lines of code are highlighted below:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -681,14 +689,17 @@
 </div><p>This clever use of <code>yield</code> allows you to pause execution of a task and move onto a different task kind of like threading, except <strong>you</strong>, not the operating system are controlling how compute is interleaved.  This is the key intuition for understanding the rest of the talk, which goes on to to push this example further.</p>
 <p>One of the most popular ways to accomplish async programming is by using the various utilities in the built-in <a href="https://docs.python.org/3/library/asyncio.html">asyncio</a> module, which uses similar yield statements under the hood. I didn&rsquo;t end up diving deeply into the asyncio module or this particular flavor of programming as my goal was to understand the concept so that I wouldn&rsquo;t be lost when encountering this in the wild.</p>
 <h1 id="conclusion">Conclusion</h1>
-<p>This talk really helped me learn about various concurrency paradigms in Python: threading, processes, and async using coroutines.  I hope that my commentary helps others follow along easier and get the same benefit that I did from it.</p>
+<p>I was so impressed by this talk, that I decided to enroll in David&rsquo;s <a href="https://www.dabeaz.com/advprog.html">Advanced Python class</a>.  David offers a number of <a href="https://www.dabeaz.com/index.html">interesting courses</a> for programmers.  I never would have anticipating signing up for this class, but there is something really unique about the depth of David&rsquo;s knowledge.  I will write other blog posts documenting the things I learn on <a href="https://python.hamel.dev">this blog</a>.</p>
 <h1 id="other-random-things">Other random things</h1>
 <p>In David&rsquo;s code, <a href="https://docs.python.org/3/library/collections.html#collections.deque">deque</a> from the <code>collections</code> module was introduced, which is a very handy data structure not only for async programming but also for threads because they are thread-safe, which means that you don&rsquo;t have to worry about <a href="https://realpython.com/intro-to-python-threading/#race-conditions">race conditions</a>. Similarly, the <a href="https://docs.python.org/3/library/queue.html">queue</a> module provides other types of thread-safe queues.</p>
 <p>Furthermore, one of my favorite python libraries, <a href="https://fastcore.fast.ai/">fastcore</a>, contains a module called <a href="https://fastcore.fast.ai/parallel.html">parallel</a> which makes using threads and processes easy for many use cases.</p>
-<h1 id="resources">Resources</h1>
+<h1 id="resources--thanks">Resources &amp; Thanks</h1>
 <ul>
 <li><a href="https://github.com/dabeaz/concurrencylive">GitHub repo</a> that contains David&rsquo;s code.</li>
+<li>The PyCon <a href="https://youtu.be/MCs5OvhV9S4">youtube video</a> for this talk.</li>
+<li>David&rsquo;s <a href="https://www.dabeaz.com/">page</a> including links to courses.</li>
 </ul>
+<p>Thanks to <a href="https://www.fast.ai/about/#jeremy">Jeremy Howard</a> for reviewing this post.</p>
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
@@ -696,16 +707,19 @@
 <p>Photo is from Luan Gjokaj on <a href="https://unsplash.com/photos/nsr4hePZGYI">UnSplash</a>. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p>This fibonacci algorithm runs in O(n<sup>2</sup>) time. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>That friend is  <a href="https://www.fast.ai/about/#jeremy">Jeremy Howard</a>.  He kept recommending the talk to me anytime the topic of concurrency came up.  I eventually caved and decided to really focus on this talk. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p>Python threads are idiosyncratic because of the <a href="https://wiki.python.org/moin/GlobalInterpreterLock">Global Interpreter Lock</a> (GIL), which prevent multiple threads from executing code Python code at once.  It is important not to confuse the behavior of Python threads with threads generally, as Python threads operate under special constraints because of the GIL. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>This fibonacci algorithm runs in O(n<sup>2</sup>) time. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:4" role="doc-endnote">
-<p>If the <code>monitor</code> task took any meaningful CPU time then the rest of the program would not run as &ldquo;usual&rdquo; because it might be competing for resources.  But that is not the case here. <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>Python threads are idiosyncratic because of the <a href="https://wiki.python.org/moin/GlobalInterpreterLock">Global Interpreter Lock</a> (GIL), which prevent multiple threads from executing code Python code at once.  It is important not to confuse the behavior of Python threads with threads generally, as Python threads operate under special constraints because of the GIL. <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:5" role="doc-endnote">
-<p>One of the most popular ways of using process pools is with the built-in <a href="https://docs.python.org/3/library/multiprocessing.html">multiprocessing</a> module. <a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>If the <code>monitor</code> task took any meaningful CPU time then the rest of the program would not run as &ldquo;usual&rdquo; because it might be competing for resources.  But that is not the case here. <a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6" role="doc-endnote">
+<p>One of the most popular ways of using process pools is with the built-in <a href="https://docs.python.org/3/library/multiprocessing.html">multiprocessing</a> module. <a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
@@ -729,6 +743,19 @@
   
 
   
+  <div style="text-align: center">
+    <strong>See an error in this blog post?  Please consider opening a PR </strong><span style="font-size: 25px;">👉 </span><a href="https://github.com/hamelsmu/python-notes/tree/master/blog/content/post/py.md" role="button" target="_blank">
+    <img class="notebook-badge-image" src="/github.svg" alt="Edit On GitHub">
+</a>
+ </div>
+    <script src="https://utteranc.es/client.js"
+            repo="hamelsmu/python-notes"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
 
       </div>
     </main>

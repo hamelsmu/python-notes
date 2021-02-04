@@ -5,6 +5,7 @@ url: /concurrency
 draft: false
 description: "Understanding basic python concurrency through realistic examples."
 tags: ["concurrency"]
+categories: ["concurrency"]
 author: "Hamel Husain"
 images:
 - cpu.jpg
@@ -27,7 +28,7 @@ As [a data scientist who is spending more time on software engineering](https://
 
 Furthermore, I was guilty of incorrectly applying these mechanisms due to my lack of understanding.  For example, I avoided using threads completely in favor of processes all the time.  Most importantly, every time I tried to learn about the subject, the examples were a bit too abstract for me, and I hard time internalizing how everything worked.  
 
-This changed when a friend of mine, [Jeremy Howard](https://www.fast.ai/about/#jeremy), recommended [a live coding talk](https://youtu.be/MCs5OvhV9S4) by [Daivd Beazley](https://www.dabeaz.com/), an accomplished Python educator.  
+This changed when a friend of mine[^6] recommended [a live coding talk](https://youtu.be/MCs5OvhV9S4) by [Daivd Beazley](https://www.dabeaz.com/), an accomplished Python educator.  
 
 _Because of restrictions with this YouTube video, I couldn't embed [the video](https://youtu.be/MCs5OvhV9S4) in this article, so you will have to open it in a different window_.
 
@@ -363,7 +364,7 @@ One of the most popular ways to accomplish async programming is by using the var
 
 # Conclusion
 
-This talk really helped me learn about various concurrency paradigms in Python: threading, processes, and async using coroutines.  I hope that my commentary helps others follow along easier and get the same benefit that I did from it.
+I was so impressed by this talk, that I decided to enroll in David's [Advanced Python class](https://www.dabeaz.com/advprog.html).  David offers a number of [interesting courses](https://www.dabeaz.com/index.html) for programmers.  I never would have anticipating signing up for this class, but there is something really unique about the depth of David's knowledge.  I will write other blog posts documenting the things I learn on [this blog](https://python.hamel.dev).
 
 # Other random things
 
@@ -371,12 +372,17 @@ In David's code, [deque](https://docs.python.org/3/library/collections.html#coll
 
 Furthermore, one of my favorite python libraries, [fastcore](https://fastcore.fast.ai/), contains a module called [parallel](https://fastcore.fast.ai/parallel.html) which makes using threads and processes easy for many use cases.  
 
-# Resources
+# Resources & Thanks
 
 - [GitHub repo](https://github.com/dabeaz/concurrencylive) that contains David's code.
+- The PyCon [youtube video](https://youtu.be/MCs5OvhV9S4) for this talk.
+- David's [page](https://www.dabeaz.com/) including links to courses.
+
+Thanks to [Jeremy Howard](https://www.fast.ai/about/#jeremy) for reviewing this post.
 
 [^1]: This fibonacci algorithm runs in O(n<sup>2</sup>) time.
 [^2]: If the `monitor` task took any meaningful CPU time then the rest of the program would not run as "usual" because it might be competing for resources.  But that is not the case here.
 [^3]: One of the most popular ways of using process pools is with the built-in [multiprocessing](https://docs.python.org/3/library/multiprocessing.html) module.
 [^4]: Photo is from Luan Gjokaj on [UnSplash](https://unsplash.com/photos/nsr4hePZGYI).
 [^5]: Python threads are idiosyncratic because of the [Global Interpreter Lock](https://wiki.python.org/moin/GlobalInterpreterLock) (GIL), which prevent multiple threads from executing code Python code at once.  It is important not to confuse the behavior of Python threads with threads generally, as Python threads operate under special constraints because of the GIL.
+[^6]: That friend is  [Jeremy Howard](https://www.fast.ai/about/#jeremy).  He kept recommending the talk to me anytime the topic of concurrency came up.  I eventually caved and decided to really focus on this talk.
