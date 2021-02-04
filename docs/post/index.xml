@@ -8,14 +8,14 @@
     <language>en</language>
     <lastBuildDate>Wed, 05 Feb 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://python.hamel.dev/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Python: Threads, Processes and Concurrency</title>
+      <title>Python Concurrency: The Tricky Bits</title>
       <link>https://python.hamel.dev/concurrency/</link>
       <pubDate>Wed, 05 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>https://python.hamel.dev/concurrency/</guid>
-      <description>Credit:1
-Understand the world of Python concurrency: threads, processes, coroutines and asynchronous programming with a realistic examples.
-Motivation As a data scientist who is spending more time on software engineering, I was recently forced to confront an ugly gap in my knowledge of Python: concurrency. To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together. Whenever I encountered talks or material that mentioned these terms, I was unable to grasp related concepts or follow along.</description>
+      <description>An exploration of threads, processes, and coroutines in Python, with interesting examples that illuminate the differences between each.
+Credit:1
+Motivation As a data scientist who is spending more time on software engineering, I was recently forced to confront an ugly gap in my knowledge of Python: concurrency. To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together.</description>
     </item>
     
   </channel>

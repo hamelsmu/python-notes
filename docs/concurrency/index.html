@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Python: Threads, Processes and Concurrency - </title>
+  <title>Python Concurrency: The Tricky Bits - </title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Hamel Husain" /><meta name="description" content="Understanding basic python concurrency through realistic examples." /><meta name="keywords" content="Python" />
+<meta name="author" content="Hamel Husain" /><meta name="description" content="An exploration of threads, processes, and coroutines in Python, with interesting examples that illuminate the differences between each." /><meta name="keywords" content="Python" />
 
 
 
@@ -39,18 +39,18 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Python: Threads, Processes and Concurrency" />
-<meta property="og:description" content="Understanding basic python concurrency through realistic examples." />
+<meta property="og:title" content="Python Concurrency: The Tricky Bits" />
+<meta property="og:description" content="An exploration of threads, processes, and coroutines in Python, with interesting examples that illuminate the differences between each." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://python.hamel.dev/concurrency/" />
 <meta property="og:image" content="https://python.hamel.dev/cpu.jpg" />
 <meta property="article:published_time" content="2020-02-05T00:00:00+00:00" />
 <meta property="article:modified_time" content="2020-02-05T00:00:00+00:00" /><meta property="og:site_name" content="Python Notes" />
-<meta itemprop="name" content="Python: Threads, Processes and Concurrency">
-<meta itemprop="description" content="Understanding basic python concurrency through realistic examples.">
+<meta itemprop="name" content="Python Concurrency: The Tricky Bits">
+<meta itemprop="description" content="An exploration of threads, processes, and coroutines in Python, with interesting examples that illuminate the differences between each.">
 <meta itemprop="datePublished" content="2020-02-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-02-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="3047">
+<meta itemprop="wordCount" content="3049">
 <meta itemprop="image" content="https://python.hamel.dev/cpu.jpg">
 
 
@@ -59,8 +59,8 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://python.hamel.dev/cpu.jpg"/>
 
-<meta name="twitter:title" content="Python: Threads, Processes and Concurrency"/>
-<meta name="twitter:description" content="Understanding basic python concurrency through realistic examples."/>
+<meta name="twitter:title" content="Python Concurrency: The Tricky Bits"/>
+<meta name="twitter:description" content="An exploration of threads, processes, and coroutines in Python, with interesting examples that illuminate the differences between each."/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -129,10 +129,10 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Python: Threads, Processes and Concurrency</h1>
+      <h1 class="post-title">Python Concurrency: The Tricky Bits</h1>
 
       <div class="post-meta">
-        <span class="post-time">Understanding basic python concurrency through realistic examples. | </span>
+        
         <span class="post-time"> 2020-02-05 </span>
 
 
@@ -170,16 +170,10 @@
   </ul>
 </nav>
   </div>
-</div><div style="text-align: right">
-      <a href="https://github.com/hamelsmu/python-notes/tree/master/blog/content/post/py.md" role="button" target="_blank">
-    <img class="notebook-badge-image" src="/github.svg" alt="Edit On GitHub">
-</a>
-    </div>
-
-    
+</div>
     <div class="post-content">
-      <p><img src="/cpu.jpg" alt=""> Credit:<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
-<p><strong>Understand the world of Python concurrency: threads, processes, coroutines and asynchronous programming with a realistic examples.</strong></p>
+      <p><strong>An exploration of threads, processes, and coroutines in Python, with interesting examples that illuminate the differences between each.</strong></p>
+<p><img src="/cpu.jpg" alt=""> Credit:<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
 <h1 id="motivation">Motivation</h1>
 <p>As <a href="https://hamel.dev/">a data scientist who is spending more time on software engineering</a>, I was recently forced to confront an ugly gap in my knowledge of Python: concurrency.  To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together.  Whenever I encountered talks or material that mentioned these terms, I was unable to grasp related concepts or follow along.</p>
 <p>Furthermore, I was guilty of incorrectly applying these mechanisms due to my lack of understanding.  For example, I avoided using threads completely in favor of processes all the time.  Most importantly, every time I tried to learn about the subject, the examples were a bit too abstract for me, and I hard time internalizing how everything worked.</p>

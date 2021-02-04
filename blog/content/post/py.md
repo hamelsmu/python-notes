@@ -1,9 +1,9 @@
 ---
-title: "Python: Threads, Processes and Concurrency"
+title: "Python Concurrency: The Tricky Bits"
 date: 2020-02-05
 url: /concurrency
 draft: false
-description: "Understanding basic python concurrency through realistic examples."
+description: "An exploration of threads, processes, and coroutines in Python, with interesting examples that illuminate the differences between each."
 tags: ["concurrency"]
 categories: ["concurrency"]
 author: "Hamel Husain"
@@ -18,9 +18,9 @@ twitter:
 - images: ["cpu.jpg"]
 ---
 
-![](/cpu.jpg) Credit:[^4]
+**An exploration of threads, processes, and coroutines in Python, with interesting examples that illuminate the differences between each.**
 
-**Understand the world of Python concurrency: threads, processes, coroutines and asynchronous programming with a realistic examples.**
+![](/cpu.jpg) Credit:[^4]
 
 # Motivation
 
