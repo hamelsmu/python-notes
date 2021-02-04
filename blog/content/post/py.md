@@ -148,9 +148,11 @@ By executing the `fib_handler` in a thread, the main while loop in `fib_server` 
 
 ## Thread performance & the GIL
 
+Python threads are idiosyncratic because of the [Global Interpreter Lock](https://wiki.python.org/moin/GlobalInterpreterLock) (GIL), which prevent multiple threads from executing code Python code at once.  It is important not to confuse the behavior of Python threads with threads generally, as Python threads operate under special constraints because of the GIL.
+
 When code stops execution and waits for an external event to occur (like a connection to be made, or data to be sent), this is often referred to as [blocking](https://stackoverflow.com/questions/2407589/what-does-the-term-blocking-mean-in-programming).
 
-One important utility of Python threads is that it allows you to force blocking processes to share CPU resources better.  However, Python threads can't run python code at the same time, because of Python's [Global Interpreter Lock](https://wiki.python.org/moin/GlobalInterpreterLock) (GIL).
+One important utility of Python threads is that it allows you to force blocking processes to share CPU resources better.  However, Python threads share a single CPU due to the GIL.
 
 Therefore, you have to think carefully about what kind of tasks you execute on threads.  If you try to execute CPU bound tasks, these tasks will compete with each other and slow each other down.  David demonstrates this with the below script that sends requests to our threaded server:
 
@@ -175,7 +177,7 @@ If you run several instances of this script (after starting the server first):
 
 You will see the execution times for each script linearly increase as you increase the number of these scripts running in parallel.  **For this particular task, adding threads does not make anything faster.  But why?**  This is because the fibonacci task is CPU bound so threads will compete with each other for resources on the same CPU core.
 
-Threads work by interleaving the execution of different tasks on your CPU.  Only one thread runs at a time, and take turns executing in small bits until all threads are done. The details of this are carried about by your operating system, so you need not worry about how this happens (with one exception mentioned below). Note that this interleaving doesn't always occur in a predictable way (but is not something you should worry about).  Because you are restricted to a single CPU core in Python, interleaving a bunch of CPU bound tasks will not speed up the total runtime of those tasks.  However, if your tasks involve lots of non-CPU time, such as waiting for network connections, or disk I/O interleaving tasks may result in a considerable speedup.  A canonical way of simulating a non-cpu bound task in python is to use the built-in function `time.sleep()`.  
+Python threads work by interleaving the execution of different tasks on your CPU.  Only one thread runs at a time, and have the ability to take turns executing in small bits until all threads are done.  The details of how this processing is interleaved (if interleaved at all) is carried out by the GIL and your operating system, so you need not worry about how this happens (with one exception mentioned below).  Because you are restricted to a single CPU core in Python, interleaving a bunch of CPU bound tasks will not speed up the total runtime of those tasks.  However, if your tasks involve lots of non-CPU time, such as waiting for network connections, or disk I/O threading tasks may result in a considerable speedup.  A canonical way of simulating a non-cpu bound task in python is to use the built-in function `time.sleep()`.  
 
 To check my understanding about threads and performance, I edited [this code](https://realpython.com/intro-to-python-threading/#working-with-many-threads) from the tutorial on threads mentioned to above, and changed `time.sleep(2)` to `fib(20)` and back again:
 
