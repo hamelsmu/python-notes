@@ -50,7 +50,7 @@
 <meta itemprop="description" content="Understanding basic python concurrency through realistic examples.">
 <meta itemprop="datePublished" content="2020-02-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-02-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="2968">
+<meta itemprop="wordCount" content="2971">
 <meta itemprop="image" content="https://python.hamel.dev/cpu.jpg">
 
 
@@ -341,9 +341,8 @@
 </blockquote>
 <p>By executing the <code>fib_handler</code> in a thread, the main while loop in <code>fib_server</code> will continue, allowing <code>sock.accept()</code> to receive additional clients.</p>
 <h2 id="thread-performance--the-gil">Thread performance &amp; the GIL</h2>
-<p>Python threads are idiosyncratic because of the <a href="https://wiki.python.org/moin/GlobalInterpreterLock">Global Interpreter Lock</a> (GIL), which prevent multiple threads from executing code Python code at once.  It is important not to confuse the behavior of Python threads with threads generally, as Python threads operate under special constraints because of the GIL.</p>
 <p>When code stops execution and waits for an external event to occur (like a connection to be made, or data to be sent), this is often referred to as <a href="https://stackoverflow.com/questions/2407589/what-does-the-term-blocking-mean-in-programming">blocking</a>.</p>
-<p>One important utility of Python threads is that it allows you to force blocking processes to share CPU resources better.  However, Python threads share a single CPU due to the GIL.</p>
+<p>One important utility of Python threads is that it allows you to force blocking processes to share CPU resources better.  However, Python threads share a single CPU due to the <a href="https://wiki.python.org/moin/GlobalInterpreterLock">Global Interpreter Lock</a>.</p>
 <p>Therefore, you have to think carefully about what kind of tasks you execute on threads.  If you try to execute CPU bound tasks, these tasks will compete with each other and slow each other down.  David demonstrates this with the below script that sends requests to our threaded server:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -382,7 +381,7 @@
 <p>python perf1.py</p>
 </blockquote>
 <p>You will see the execution times for each script linearly increase as you increase the number of these scripts running in parallel.  <strong>For this particular task, adding threads does not make anything faster.  But why?</strong>  This is because the fibonacci task is CPU bound so threads will compete with each other for resources on the same CPU core.</p>
-<p>Python threads work by interleaving the execution of different tasks on your CPU.  Only one thread runs at a time, and have the ability to take turns executing in small bits until all threads are done.  The details of how this processing is interleaved (if interleaved at all) is carried out by the GIL and your operating system, so you need not worry about how this happens (with one exception mentioned below).  Because you are restricted to a single CPU core in Python, interleaving a bunch of CPU bound tasks will not speed up the total runtime of those tasks.  However, if your tasks involve lots of non-CPU time, such as waiting for network connections, or disk I/O threading tasks may result in a considerable speedup.  A canonical way of simulating a non-cpu bound task in python is to use the built-in function <code>time.sleep()</code>.</p>
+<p>Python threads work by interleaving the execution of different tasks on your CPU.<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>  Only one thread runs at a time, and have the ability to take turns executing in small bits until all threads are done.  The details of how this processing is interleaved (if interleaved at all) is carried out by the GIL and your operating system, so you need not worry about how this happens (with one exception mentioned below).  Because you are restricted to a single CPU core in Python, interleaving a bunch of CPU bound tasks will not speed up the total runtime of those tasks.  However, if your tasks involve lots of non-CPU time, such as waiting for network connections, or disk I/O, threading tasks may result in a considerable speedup.  A canonical way of simulating a non-cpu bound task in python is to use the built-in function <code>time.sleep()</code>.</p>
 <p>To check my understanding about threads and performance, I edited <a href="https://realpython.com/intro-to-python-threading/#working-with-many-threads">this code</a> from the tutorial on threads mentioned to above, and changed <code>time.sleep(2)</code> to <code>fib(20)</code> and back again:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -510,7 +509,7 @@
     <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>In this case David uses a single thread with blocking call to <code>sleep(1)</code> to make sure that <code>monitor</code>  only prints out a metric once per second, while allowing the rest of the program to send requests hundreds of times per second.  In other words, this is a clever use of threads and blocking that allow a part of the program to run at a specified time interval while allowing the rest of your program to run as usual. <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+</div><p>In this case David uses a single thread with blocking call to <code>sleep(1)</code> to make sure that <code>monitor</code>  only prints out a metric once per second, while allowing the rest of the program to send requests hundreds of times per second.  In other words, this is a clever use of threads and blocking that allow a part of the program to run at a specified time interval while allowing the rest of your program to run as usual. <sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
 <p>These different angles of looking at threads allowed me to understand threads more holistically.  Threads are not only about making certain things run faster or run in parallel, but also allows you to control how your program is executed.</p>
 <h1 id="processes-for-cpu-bound-tasks">Processes For CPU Bound Tasks</h1>
 <p>One way to solve the problem with the GIL and cpu-bound tasks competing for resources is to use processes instead of threads.  Processes are different from threads in the following respects:</p>
@@ -519,7 +518,7 @@
 <li>Processes have significant overhead compared to threads because data and program state has to be replicated across each process.</li>
 <li>Unlike threads, processes are not constrained to run on a single CPU, so you can execute cpu-bound tasks in parallel on different cores.</li>
 </ul>
-<p>You can learn more about the differences between processes and threads in <a href="https://realpython.com/python-concurrency">this tutorial</a>. David uses python processes in the server by using a process pool.<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>  The relevant lines of code are highlighted below:</p>
+<p>You can learn more about the differences between processes and threads in <a href="https://realpython.com/python-concurrency">this tutorial</a>. David uses python processes in the server by using a process pool.<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>  The relevant lines of code are highlighted below:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -700,10 +699,13 @@
 <p>This fibonacci algorithm runs in O(n<sup>2</sup>) time. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p>If the <code>monitor</code> task took any meaningful CPU time then the rest of the program would not run as &ldquo;usual&rdquo; because it might be competing for resources.  But that is not the case here. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>Python threads are idiosyncratic because of the <a href="https://wiki.python.org/moin/GlobalInterpreterLock">Global Interpreter Lock</a> (GIL), which prevent multiple threads from executing code Python code at once.  It is important not to confuse the behavior of Python threads with threads generally, as Python threads operate under special constraints because of the GIL. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:4" role="doc-endnote">
-<p>One of the most popular ways of using process pools is with the built-in <a href="https://docs.python.org/3/library/multiprocessing.html">multiprocessing</a> module. <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>If the <code>monitor</code> task took any meaningful CPU time then the rest of the program would not run as &ldquo;usual&rdquo; because it might be competing for resources.  But that is not the case here. <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5" role="doc-endnote">
+<p>One of the most popular ways of using process pools is with the built-in <a href="https://docs.python.org/3/library/multiprocessing.html">multiprocessing</a> module. <a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
