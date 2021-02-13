@@ -187,7 +187,7 @@ Python threads work by interleaving the execution of different tasks on your CPU
 
 To check my understanding about threads and performance, I edited [this code](https://realpython.com/intro-to-python-threading/#working-with-many-threads) from the tutorial on threads mentioned to above, and changed `time.sleep(2)` to `fib(20)` and back again:
 
-```py {hl_lines=[4,7]}
+```py {hl_lines=[4,8]}
 import logging
 import threading
 import time
@@ -235,10 +235,10 @@ The Python GIL will prioritize the first type of task at the expense of the seco
 It is tempting to think of Python threads as a tool to make things run faster, but that's not the only use case.  Recall that the socket server used threads to allow multiple connections at once without any speedup.  David illustrates another way to use threads with his code used to measure the runtime of short-running tasks: 
 
 [perf2.py](https://github.com/dabeaz/concurrencylive/blob/master/perf2.py):
-```py3 {hl_lines=[12, 19]}
+```py3 {hl_lines=[3, 15, 18]}
 # perf2.py
 # requests/sec of fast requests
-
+from threading import Thread
 from socket import *
 import time
 
@@ -247,7 +247,6 @@ sock.connect(('localhost', 25000))
 
 n = 0
 
-from threading import Thread
 def monitor():
     global n
     while True:

@@ -50,7 +50,7 @@
 <meta itemprop="description" content="An exploration of threads, processes, and coroutines in Python, with interesting examples that illuminate the differences between each.">
 <meta itemprop="datePublished" content="2020-02-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-02-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="3486">
+<meta itemprop="wordCount" content="3485">
 <meta itemprop="image" content="https://python.hamel.dev/cpu.jpg">
 
 
@@ -420,9 +420,9 @@
 </span><span class="hl"><span class="lnt"> 4
 </span></span><span class="lnt"> 5
 </span><span class="lnt"> 6
-</span><span class="hl"><span class="lnt"> 7
-</span></span><span class="lnt"> 8
-</span><span class="lnt"> 9
+</span><span class="lnt"> 7
+</span><span class="hl"><span class="lnt"> 8
+</span></span><span class="lnt"> 9
 </span><span class="lnt">10
 </span><span class="lnt">11
 </span><span class="lnt">12
@@ -451,9 +451,9 @@
 <span class="hl"><span class="kn">import</span> <span class="nn">fib</span>
 </span>
 <span class="k">def</span> <span class="nf">thread_function</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-<span class="hl">    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Thread </span><span class="si">%s</span><span class="s2">: starting&#34;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-</span>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1">## Change this line of code to fib(20)</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Thread </span><span class="si">%s</span><span class="s2">: finishing&#34;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Thread </span><span class="si">%s</span><span class="s2">: starting&#34;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+<span class="hl">    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1">## Change this line of code to fib(20)</span>
+</span>    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Thread </span><span class="si">%s</span><span class="s2">: finishing&#34;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
     <span class="n">format</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="si">%(asctime)s</span><span class="s2">: </span><span class="si">%(message)s</span><span class="s2">&#34;</span>
@@ -493,8 +493,8 @@
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
+</span><span class="hl"><span class="lnt"> 3
+</span></span><span class="lnt"> 4
 </span><span class="lnt"> 5
 </span><span class="lnt"> 6
 </span><span class="lnt"> 7
@@ -502,25 +502,24 @@
 </span><span class="lnt"> 9
 </span><span class="lnt">10
 </span><span class="lnt">11
-</span><span class="hl"><span class="lnt">12
-</span></span><span class="lnt">13
+</span><span class="lnt">12
+</span><span class="lnt">13
 </span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
+</span><span class="hl"><span class="lnt">15
+</span></span><span class="lnt">16
 </span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="hl"><span class="lnt">19
-</span></span><span class="lnt">20
+</span><span class="hl"><span class="lnt">18
+</span></span><span class="lnt">19
+</span><span class="lnt">20
 </span><span class="lnt">21
 </span><span class="lnt">22
 </span><span class="lnt">23
-</span><span class="lnt">24
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-py3" data-lang="py3"><span class="c1"># perf2.py</span>
 <span class="c1"># requests/sec of fast requests</span>
-
-<span class="kn">from</span> <span class="nn">socket</span> <span class="k">import</span> <span class="o">*</span>
+<span class="hl"><span class="kn">from</span> <span class="nn">threading</span> <span class="k">import</span> <span class="n">Thread</span>
+</span><span class="kn">from</span> <span class="nn">socket</span> <span class="k">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
 <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">)</span>
@@ -528,12 +527,11 @@
 
 <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
 
-<span class="hl"><span class="kn">from</span> <span class="nn">threading</span> <span class="k">import</span> <span class="n">Thread</span>
-</span><span class="k">def</span> <span class="nf">monitor</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">monitor</span><span class="p">():</span>
     <span class="k">global</span> <span class="n">n</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s1">&#39;reqs/sec&#39;</span><span class="p">)</span>
+<span class="hl">        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span>        <span class="nb">print</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s1">&#39;reqs/sec&#39;</span><span class="p">)</span>
         <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="hl"><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">monitor</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </span>
