@@ -50,7 +50,7 @@
 <meta itemprop="description" content="An exploration of threads, processes, and coroutines in Python, with interesting examples that illuminate the differences between each.">
 <meta itemprop="datePublished" content="2020-02-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-02-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="3485">
+<meta itemprop="wordCount" content="3486">
 <meta itemprop="image" content="https://python.hamel.dev/cpu.jpg">
 
 
@@ -552,7 +552,7 @@
 <li>Outside of Python, if you want to parallelize a CPU bound task by splitting up the task across individual threads running on separate CPU cores.</li>
 </ul>
 <p>A process can span across multiple CPU cores, however a single thread can only utilize one CPU core.</p>
-<p>Generally speaking, only one thread can run cpu-bound tasks on a single core at any given time.  If multiple threads are sharing a CPU core, your operating system will interleave these threads.  There are many exceptions  to this rule. For example single CPU cores are able to run multiple threads concurrently by using things like <a href="https://en.wikipedia.org/wiki/Simultaneous_multithreading">SMT/hyper-threading</a> or compute over data in parallel using [SIMD](<a href="https://en.wikipedia.org/wiki/SIMD#:~:text=Single%20instruction%2C%20multiple%20data%20(SIMD,on%20multiple%20data%20points%20simultaneously)(which">https://en.wikipedia.org/wiki/SIMD#:~:text=Single%20instruction%2C%20multiple%20data%20(SIMD,on%20multiple%20data%20points%20simultaneously)(which</a> is popular in scientific computing libraries).</p>
+<p>Generally speaking, only one thread can run cpu-bound tasks on a single core at any given time.  If multiple threads are sharing a CPU core, your operating system will interleave these threads.  There are many exceptions  to this rule. For example single CPU cores are able to run multiple threads concurrently by using things like <a href="https://en.wikipedia.org/wiki/Simultaneous_multithreading">SMT/hyper-threading</a> or compute over data in parallel using <a href="https://en.wikipedia.org/wiki/SIMD">SIMD</a>, which is popular in scientific computing libraries.</p>
 <p>On the other hand, Processes offer isolation which is helpful when you have different users or different programs that should not be sharing information.  Since we cannot run more than a single thread at a time in Python, a common workaround is to spawn several Python processes.  This is discussed more below.</p>
 <p>Chapter 2 of <a href="https://www.amazon.com/Modern-Operating-Systems-Andrew-Tanenbaum/dp/013359162X">This book</a> discusses what processes and threads are in greater detail from an operating system perspective.</p>
 <h1 id="processes-for-cpu-bound-tasks">Processes For CPU Bound Tasks</h1>

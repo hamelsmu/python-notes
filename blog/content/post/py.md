@@ -275,7 +275,7 @@ A thread is always contained in a processes, and each processes contains one or 
 
 A process can span across multiple CPU cores, however a single thread can only utilize one CPU core.
 
-Generally speaking, only one thread can run cpu-bound tasks on a single core at any given time.  If multiple threads are sharing a CPU core, your operating system will interleave these threads.  There are many exceptions  to this rule. For example single CPU cores are able to run multiple threads concurrently by using things like [SMT/hyper-threading](https://en.wikipedia.org/wiki/Simultaneous_multithreading) or compute over data in parallel using [SIMD](https://en.wikipedia.org/wiki/SIMD#:~:text=Single%20instruction%2C%20multiple%20data%20(SIMD,on%20multiple%20data%20points%20simultaneously)(which is popular in scientific computing libraries).
+Generally speaking, only one thread can run cpu-bound tasks on a single core at any given time.  If multiple threads are sharing a CPU core, your operating system will interleave these threads.  There are many exceptions  to this rule. For example single CPU cores are able to run multiple threads concurrently by using things like [SMT/hyper-threading](https://en.wikipedia.org/wiki/Simultaneous_multithreading) or compute over data in parallel using [SIMD](https://en.wikipedia.org/wiki/SIMD), which is popular in scientific computing libraries.
 
 On the other hand, Processes offer isolation which is helpful when you have different users or different programs that should not be sharing information.  Since we cannot run more than a single thread at a time in Python, a common workaround is to spawn several Python processes.  This is discussed more below.
 
