@@ -24,9 +24,7 @@ twitter:
 
 # Motivation
 
-As [a data scientist who is spending more time on software engineering](https://hamel.dev/), I was recently forced to confront an ugly gap in my knowledge of Python: concurrency.  To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together.  Whenever I encountered talks or material that mentioned these terms, I was unable to grasp related concepts or follow along.
-
-Furthermore, I was guilty of incorrectly applying these mechanisms due to my lack of understanding.  For example, I avoided using threads completely in favor of processes all the time.  Most importantly, every time I tried to learn about the subject, the examples were a bit too abstract for me, and I hard time internalizing how everything worked.  
+As [a data scientist who is spending more time on software engineering](https://hamel.dev/), I was recently forced to confront an ugly gap in my knowledge of Python: concurrency.  To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together.  Every time I tried to learn about the subject, the examples were a bit too abstract for me, and I hard time internalizing how everything worked.  
 
 This changed when a friend of mine[^6] recommended [a live coding talk](https://youtu.be/MCs5OvhV9S4) by [Daivd Beazley](https://www.dabeaz.com/), an accomplished Python educator.  
 
@@ -53,13 +51,11 @@ This function takes much longer for large inputs versus smaller inputs[^1], whic
 
 ## A Simple Web Server
 
-It is also useful to have a real-word task that can benefit from threading.  A web server is one of the best ways to illustrate different types of concurrency.  However, to really demonstrate how things work it is useful to use something that is sufficiently low level enough to see how all the pieces work.
-
-For this, David sets up a web server using socket programming.  If you aren't familiar with socket programming (I'm willing to bet most people are not), please stop reading and complete [this tutorial](https://ruslanspivak.com/lsbaws-part1/).
+A web server is one of the best ways to illustrate different types of concurrency.  However, to really demonstrate how things work it is useful to use something that is sufficiently low level enough to see how all the pieces work.  For this, David sets up a web server using socket programming.  If you aren't familiar with socket programming (I'm willing to bet most people are not), please stop reading and complete [this tutorial](https://ruslanspivak.com/lsbaws-part1/).
 
 To begin with, David starts with the below code (I've highlighted the most interesting bits):
 
-```py3 {hl_lines=[11,13,17,21]}
+```python3 {hl_lines=[11,13,17,21]}
 # server-1.py
 from socket import *
 from fib import fib 
@@ -99,23 +95,28 @@ Here is an explanation of this code:
 In the above example, the server will only be able to accept a connection from a single client, because the call to `fib_handler` will never return (because it will run in an infinite loop unless a kill signal is received).  This means that `sock.accept()` can only be called once.
 
 You can test this out by first running the server:
-> python server-1.py
+```bash
+python server-1.py
+```
 
 Then establish a client:
-> telnet localhost 25000
+```bash
+telnet localhost 25000
+```
 
 You can type numbers in [as David does in his video](https://youtu.be/MCs5OvhV9S4?t=293) and verifies that fibonacci numbers are returned.  However, if you try to connect with another client at the same time from a different terminal session:
-> telnet localhost 25000
+
+```bash
+telnet localhost 25000
+```
 
 You will notice that the second client just hangs and doesn't return anything from the server.  This is because the server is only able to accept a single connection.  Next, we explore how we can tackle this issue.
 
 # Threads
 
-A way to solve this issue is to use threads.  If you haven't encountered threads before, please go through [this tutorial on threads](https://realpython.com/intro-to-python-threading/).  
+A way to solve this issue is to use threads.  If you haven't encountered threads before, please go through [this tutorial](https://realpython.com/intro-to-python-threading/).  You can add threads to the handler so that more connections can be accepted with the following code highlighted in yellow:
 
-You can add threads to the handler so that more connections can be accepted by adding the following two lines code highlighted in yellow:
-
-```py {hl_lines=[3,13]}
+```py3 {hl_lines=[3,13]}
 from socket import *
 from fib import fib
 from threading import Thread
@@ -143,7 +144,10 @@ fib_server(('', 25000))
 ```
 
 You can verify that this works by connecting two separate clients to the server by running the following command in two separate terminal windows: 
-> telnet localhost 25000
+
+```bash
+telnet localhost 25000
+```
 
 By executing the `fib_handler` in a thread, the main while loop in `fib_server` will continue, allowing `sock.accept()` to receive additional clients.  
 
@@ -151,7 +155,7 @@ By executing the `fib_handler` in a thread, the main while loop in `fib_server` 
 
 When code stops execution and waits for an external event to occur (like a connection to be made, or data to be sent), this is often referred to as [blocking](https://stackoverflow.com/questions/2407589/what-does-the-term-blocking-mean-in-programming).
 
-One important utility of threads is that it allows blocking tasks to release control of the CPU when the CPU is not being used in blocking task.  However, the Python interpreter is only able to run one thread at a time due to the [Global Interpreter Lock](https://wiki.python.org/moin/GlobalInterpreterLock).  Because Python can only run a single thread at any given time, any CPU-bound work in threads must take turn running one after the other.
+One important utility of threads is that it allows blocking tasks to release control of the CPU when the CPU is not being used.  However, the Python interpreter can only run on one thread at a time due to the [Global Interpreter Lock](https://wiki.python.org/moin/GlobalInterpreterLock).  Because Python can only run a single thread at any given time, any CPU-bound work in threads must take turn running one after the other.
 
 Therefore, you have to think carefully about what kind of tasks you execute in threads with Python.  If you try to execute CPU bound tasks, these tasks will slow each other down.  David demonstrates this with the below script that sends requests to our threaded server:
 
@@ -172,9 +176,12 @@ while True:
 ```
 
 If you run several instances of this script (after starting the server first):
-> python perf1.py
 
-You will see the execution times for each script linearly increase as you increase the number of these scripts running in parallel.  **For this particular task, adding threads does not make anything faster.  But why?**  This is because the fibonacci task is CPU bound so threads will compete with each other for resources on the same CPU core.
+```bash
+python perf1.py
+```
+
+You will see the execution times for each script linearly increase as you increase the number of these scripts running in parallel.  **For this particular task, adding threads does not make anything faster.  But why?**  This is because the fibonacci task is CPU bound so threads will compete with each other for resources.
 
 Python threads work by interleaving the execution of different tasks on your CPU.[^5]  Only one thread runs at a time, and have the ability to take turns executing in small bits until all threads are done.  The details of how thread processing is interleaved is carried out by the GIL and your operating system, so you need not worry about this detail (with one exception mentioned below).  Interleaving a bunch of CPU bound tasks will not speed up the total runtime of those tasks.  However, if your tasks involve lots of non-CPU time, such as waiting for network connections, or disk I/O, threading tasks may result in a considerable speedup.  A canonical way of simulating a non-cpu bound task in python is to use the built-in function `time.sleep()`.  
 
@@ -214,21 +221,21 @@ if __name__ == "__main__":
 
 As expected, increasing the number of threads while running `time.sleep(2)` did not increase the program's overall execution time (the program runs in roughly 2 seconds).  On the other hand, replacing `time.sleep(2)` with `fib(20)` causes this program's running time to increase as more threads are added. This is because `fib(20)` is a cpu bound task so interleaving the task doesn't really help much.
 
-> You will often hear that Python is not good at parallelism and that you can only run on one CPU core at a time.  They are likely referring to the aforementioned issues with threads and the GIL.  Because you are limited to one thread, this  means that thread-based processing only allows you to use one CPU core at a time (a single thread cannot run across multiple CPUs).  Outside of Python, threads are a popular choice for parallelizing CPU-bound tasks because you are able to run a separate thread per CPU core simultaneously.  However, with Python you must look for other ways to accomplish parallelism for cpu-bound tasks in Python.
+> You will often hear that Python is not good at parallelism and that you can only run on one CPU core at a time.  They are likely referring to the aforementioned issues with threads and the GIL.  Because you are limited to one thread, this  means that thread-based tasks can only use one CPU core at a time (a single thread cannot run across multiple CPUs).  Outside of Python, threads are a popular choice for parallelizing CPU-bound tasks because you are able to run a separate thread per CPU core simultaneously.  However, with Python you must look for other ways to accomplish parallelism for cpu-bound tasks.
 
 Another interesting but less known aspect that David discusses is the relation between the following two types of tasks:
 
 1. things that take much longer to compute on the CPU, like `fib(30)`, _demonstrated with  [perf1.py](https://github.com/dabeaz/concurrencylive/blob/master/perf1.py)_.
 2. things that compute relatively fast on the CPU, like `fib(1)`, _demonstrated with [perf2.py](https://github.com/dabeaz/concurrencylive/blob/master/perf2.py)_.
 
-The Python GIL will prioritize the first type of task at the expense of the second if they are made to compete for resources in threads.  You can follow along with a demonstration of this [here](https://youtu.be/MCs5OvhV9S4?t=568).  This is interesting because this is the opposite of how typical operating systems prioritize threads (by favoring shorter run fning tasks) and is something unique to the implementation of the Python GIL.  More importantly, this behavior has a very practical consequence: if you are running a web-server where most tasks are fairly quick, one outlier expensive cpu-bound task can grind everything to a halt.
+The Python GIL will prioritize the first type of task at the expense of the second if they are made to compete for resources in threads.  You can follow along with a demonstration of this [here](https://youtu.be/MCs5OvhV9S4?t=568).  This is interesting because this is the opposite of how typical operating systems prioritize threads (by favoring shorter running tasks) and is something unique to the implementation of the Python GIL.  More importantly, this behavior has a very practical consequence: if you are running a web-server where most tasks are fairly quick, an expensive cpu-bound task can grind everything to a halt.
 
 ## Threads are not just about making things faster
 
 It is tempting to think of Python threads as a tool to make things run faster, but that's not the only use case.  Recall that the socket server used threads to allow multiple connections at once without any speedup.  David illustrates another way to use threads with his code used to measure the runtime of short-running tasks: 
 
 [perf2.py](https://github.com/dabeaz/concurrencylive/blob/master/perf2.py):
-```py {hl_lines=[12, 19]}
+```py3 {hl_lines=[12, 19]}
 # perf2.py
 # requests/sec of fast requests
 
@@ -255,15 +262,20 @@ while True:
     n += 1
 ```
 
-In this case David uses a single thread with blocking call to `sleep(1)` to make sure that `monitor`  only prints out a metric once per second, while allowing the rest of the program to send requests hundreds of times per second.  In other words, this is a clever use of threads and blocking that allow a part of the program to run at a specified time interval while allowing the rest of your program to run as usual. [^2]  
+In this case, David uses a single thread with a blocking call to `sleep(1)` to make sure that `monitor` only prints once per second, while allowing the rest of the program to send requests hundreds of times per second.  In other words, this is a clever use of threads and blocking that allow part of a program to run at a desired time interval while allowing the rest of the program to run as usual. [^2]  
 
 These different angles of looking at threads allowed me to understand threads more holistically.  Threads are not only about making certain things run faster or run in parallel, but also allows you to control how your program is executed.
 
 ## How threads work
 
-A thread is always contained in a processes, and each processes contains one or more threads.  Threads in the same process can share memory which means they can easily communicate and write to common data structures.  Threads are useful when there are lots of non-cpu blocking tasks or when you want to parallelize a CPU blocking task by splitting up the task to run on an individual thread per CPU core.  A process can span across multiple CPU cores, however a single thread can only utilize a CPU core.
+A thread is always contained in a processes, and each processes contains one or more threads.  Threads in the same process can share memory which means they can easily communicate and write to common data structures.  Threads are useful in the following two scenarios:
 
-Generally speaking, only one thread can run cpu-bound tasks on a single core at any given time.  If multiple threads are sharing a core, your operating system will interleave these threads.  There are many exceptions  to this rule. For example single CPU cores are able to run multiple threads concurrently by using things like [SMT/hyperthreading](https://en.wikipedia.org/wiki/Simultaneous_multithreading) or compute over data in parallel using [SIMD](https://en.wikipedia.org/wiki/SIMD#:~:text=Single%20instruction%2C%20multiple%20data%20(SIMD,on%20multiple%20data%20points%20simultaneously)(which is popular in scientific computing libraries). 
+- When there are lots of non-cpu bound tasks (disk I/O, network calls, etc.).
+- Outside of Python, if you want to parallelize a CPU bound task by splitting up the task across individual threads running on separate CPU cores. 
+
+A process can span across multiple CPU cores, however a single thread can only utilize one CPU core.
+
+Generally speaking, only one thread can run cpu-bound tasks on a single core at any given time.  If multiple threads are sharing a CPU core, your operating system will interleave these threads.  There are many exceptions  to this rule. For example single CPU cores are able to run multiple threads concurrently by using things like [SMT/hyper-threading](https://en.wikipedia.org/wiki/Simultaneous_multithreading) or compute over data in parallel using [SIMD](https://en.wikipedia.org/wiki/SIMD#:~:text=Single%20instruction%2C%20multiple%20data%20(SIMD,on%20multiple%20data%20points%20simultaneously)(which is popular in scientific computing libraries).
 
 On the other hand, Processes offer isolation which is helpful when you have different users or different programs that should not be sharing information.  Since we cannot run more than a single thread at a time in Python, a common workaround is to spawn several Python processes.  This is discussed more below.
 
@@ -273,7 +285,7 @@ Chapter 2 of [This book](https://www.amazon.com/Modern-Operating-Systems-Andrew-
 
 One way to solve the problem with the GIL and cpu-bound tasks competing for resources is to use processes instead of threads.  Processes are different from threads in the following respects:
 
-- Python threads share a memory space, whereas processes have a separate memory space.  This is an important consideration if you need to share variables or data between tasks.
+- Python threads share a memory space, whereas each process has a separate memory space.  This is an important consideration if you need to share variables or data between tasks.
 - Processes have significant overhead compared to threads because data and program state has to be replicated across each process.
 - Unlike Python threads, processes are not constrained to run on a single CPU, so you can execute cpu-bound tasks in parallel on different cores.
 
@@ -327,7 +339,7 @@ This is a realistic example that allow you to gain more intuition about how thre
 
 # Asynchronous programming
 
-Recall that threads run one task at a time, and the operating system automatically decides when to interrupt each thread to allow the threads to take turns running.  This is called [pre-emptive multitasking](https://en.wikipedia.org/wiki/Preemption_%28computing%29#Preemptive_multitasking) since the operating systems, not you, determine when your thread makes the switch.  When you don't care about how tasks are interleaved, threads are great because you don't have to worry about how they are scheduled.
+Recall that Python can only operate on one thread at a time, and the operating system automatically decides when to interrupt each thread to allow the threads to take turns running.  This is called [pre-emptive multitasking](https://en.wikipedia.org/wiki/Preemption_%28computing%29#Preemptive_multitasking) since the operating systems, not you, determine when your thread makes the switch.  When you don't care about how tasks are interleaved, threads are great because you don't have to worry about how they are scheduled.
 
 However, there is third type of concurrency paradigm in Python that allows you to control how this switching occurs: Asynchronous Programming.  This is also called [cooperative multitasking](https://en.wikipedia.org/wiki/Cooperative_multitasking) which means each task must announce when it wants to switch. Another term used for cooperative multitasking is a [coroutine](https://www.geeksforgeeks.org/coroutine-in-python/).
 
@@ -389,9 +401,9 @@ Furthermore, one of my favorite python libraries, [fastcore](https://fastcore.fa
 
 ## Terminology
 
-The following is terminology that often confused when I hear people talk about concurrency in python that we didn't touch on in this blog post.
+The following is terminology associated with Python concurrency that is often confused that we didn't touch on in this blog post:
 
-- **Concurrency**: this means creating programs do more than one thing at a time.  It does not mean parallelization.  If two parts of a program take turns executing until they are both complete this is concurrency even if they don't run any faster then if run separately.
+- **Concurrency**: this means creating programs do more than one thing at a time.  It does not mean parallelization.  If two parts of a program take turns executing until they are both complete this is concurrency even if they don't run any faster than if run separately.
 - **Multiplexing**: this means sharing resources.
 - **Mutex**: (stands for Mutual Exclusion) this is used to enforce exclusive access to a resource across threads to avoid race conditions. 
 
@@ -401,7 +413,7 @@ The following is terminology that often confused when I hear people talk about c
 - The PyCon [youtube video](https://youtu.be/MCs5OvhV9S4) for this talk.
 - David's [page](https://www.dabeaz.com/) including links to courses.
 
-Thanks to [Jeremy Howard](https://www.fast.ai/about/#jeremy) for reviewing this post.
+Thanks to [Jeremy Howard](https://www.fast.ai/about/#jeremy), [Zach Mueller](https://twitter.com/TheZachMueller), and  for reviewing this post.
 
 [^1]: This fibonacci algorithm runs in O(n<sup>2</sup>) time.
 [^2]: If the `monitor` task took any meaningful CPU time then the rest of the program would not run as "usual" because it might be competing for resources.  But that is not the case here.
