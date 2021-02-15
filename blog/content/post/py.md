@@ -51,7 +51,7 @@ This function takes much longer for large inputs versus smaller inputs[^1], whic
 
 ## A Simple Web Server
 
-A web server is one of the best ways to illustrate different types of concurrency.  However, to really demonstrate how things work it is useful to use something that is sufficiently low level enough to see how all the pieces work.  For this, David sets up a web server using socket programming.  If you aren't familiar with socket programming (I'm willing to bet most people are not), please stop reading and complete [this tutorial](https://ruslanspivak.com/lsbaws-part1/).
+A web server is one of the best ways to illustrate different types of concurrency.  However, to really demonstrate how things work it is useful to use something that is sufficiently low level enough to see how all the pieces work.  For this, David sets up a web server using socket programming.  If you aren't familiar with socket programming, I'll explain the important bits below, but feel free to dive deeper [with this tutorial](https://ruslanspivak.com/lsbaws-part1/) later if you like.
 
 To begin with, David starts with the below code (I've highlighted the most interesting bits):
 
@@ -114,7 +114,7 @@ You will notice that the second client just hangs and doesn't return anything fr
 
 # Threads
 
-A way to solve this issue is to use threads.  If you haven't encountered threads before, please go through [this tutorial](https://realpython.com/intro-to-python-threading/).  You can add threads to the handler so that more connections can be accepted with the following code highlighted in yellow:
+A way to solve this issue is to use threads.  You can add threads to the handler so that more connections can be accepted with the following code highlighted in yellow:
 
 ```py3 {hl_lines=[3,13]}
 from socket import *
@@ -149,7 +149,7 @@ You can verify that this works by connecting two separate clients to the server 
 telnet localhost 25000
 ```
 
-By executing the `fib_handler` in a thread, the main while loop in `fib_server` will continue, allowing `sock.accept()` to receive additional clients.  
+By executing the `fib_handler` in a thread, the main while loop in `fib_server` will continue, allowing `sock.accept()` to receive additional clients.  If you haven't encountered threads before [this tutorial](https://realpython.com/intro-to-python-threading/) provides a good introduction to the topic.
 
 ## Thread performance & the GIL
 
@@ -185,7 +185,7 @@ You will see the execution times for each script linearly increase as you increa
 
 Python threads work by interleaving the execution of different tasks on your CPU.[^5]  Only one thread runs at a time, and have the ability to take turns executing in small bits until all threads are done.  The details of how thread processing is interleaved is carried out by the GIL and your operating system, so you need not worry about this detail (with one exception mentioned below).  Interleaving a bunch of CPU bound tasks will not speed up the total runtime of those tasks.  However, if your tasks involve lots of non-CPU time, such as waiting for network connections, or disk I/O, threading tasks may result in a considerable speedup.  A canonical way of simulating a non-cpu bound task in python is to use the built-in function `time.sleep()`.  
 
-To check my understanding about threads and performance, I edited [this code](https://realpython.com/intro-to-python-threading/#working-with-many-threads) from the tutorial on threads mentioned to above, and changed `time.sleep(2)` to `fib(20)` and back again:
+To check my understanding about threads and performance, I edited the below code[^7] and changed `time.sleep(2)` to `fib(20)` and back again:
 
 ```py {hl_lines=[4,8]}
 import logging
@@ -228,7 +228,7 @@ Another interesting but less known aspect that David discusses is the relation b
 1. things that take much longer to compute on the CPU, like `fib(30)`, _demonstrated with  [perf1.py](https://github.com/dabeaz/concurrencylive/blob/master/perf1.py)_.
 2. things that compute relatively fast on the CPU, like `fib(1)`, _demonstrated with [perf2.py](https://github.com/dabeaz/concurrencylive/blob/master/perf2.py)_.
 
-The Python GIL will prioritize the first type of task at the expense of the second if they are made to compete for resources in threads.  You can follow along with a demonstration of this [here](https://youtu.be/MCs5OvhV9S4?t=568).  This is interesting because this is the opposite of how typical operating systems prioritize threads (by favoring shorter running tasks) and is something unique to the implementation of the Python GIL.  More importantly, this behavior has a very practical consequence: if you are running a web-server where most tasks are fairly quick, an expensive cpu-bound task can grind everything to a halt.
+The Python GIL will prioritize the first type of task at the expense of the second if they are made to compete for resources in threads.  You can optionally follow along with a demonstration of this [here](https://youtu.be/MCs5OvhV9S4?t=568).  This is interesting because this is the opposite of how typical operating systems prioritize threads (by favoring shorter running tasks) and is something unique to the implementation of the Python GIL.  More importantly, this behavior has a very practical consequence: if you are running a web-server where most tasks are fairly quick, an expensive cpu-bound task can grind everything to a halt.
 
 ## Threads are not just about making things faster
 
@@ -420,3 +420,4 @@ Thanks to [Jeremy Howard](https://www.fast.ai/about/#jeremy) and [Zach Mueller](
 [^4]: Photo is from Luan Gjokaj on [UnSplash](https://unsplash.com/photos/nsr4hePZGYI).
 [^5]: Python threads are idiosyncratic because of the [Global Interpreter Lock](https://wiki.python.org/moin/GlobalInterpreterLock) (GIL), which prevent multiple threads from executing code Python code at once.  It is important not to confuse the behavior of Python threads with threads generally.
 [^6]: That friend is  [Jeremy Howard](https://www.fast.ai/about/#jeremy).  He kept recommending the talk to me anytime the topic of concurrency came up.  I eventually caved and decided to really focus on this talk.
+[^7]: Code is originally from [this tutorial on threads](https://realpython.com/intro-to-python-threading/#working-with-many-threads).
