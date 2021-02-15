@@ -338,7 +338,15 @@ This is a realistic example that allow you to gain more intuition about how thre
 
 ## A note for data scientists: processes vs. threads
 
-I realize that most of my audience are data scientists.  I've found many data scientists (formerly including myself) blindly apply processes and completely ignore threads all together.  
+I've found many data scientists (formerly including myself) blindly apply processes and completely ignore threads.  I understand why - Processes are a kind of least common denominator where you can achieve some kind of parallelism regardless of if your task is CPU bound or not. However, I've found that doing this is very suboptimal and prevented me from utilizing all the compute sources available.  Some examples to clarify where threads vs processes might be more appropriate:
+
+- If you are downloading lots of files from the internet, consider using threads.  This is because most of your time is spent on network I/O, not on the CPU.  If you have tons files to download and you _really_ want to maximize the number of threads, you can also spawn a bunch of [threads inside several processes](https://stackoverflow.com/a/45130246/1518630).  However, I generally recommend avoiding complexity unless absolutely necessary so just stick with threads by themselves unless you really need something fancier.
+
+- If you are transforming or cleaning a large dataset, this work is mostly CPU bound so using processes makes sense.  The only part of this that isn't CPU-bound is reading and writing the data to disk.
+
+- If you just want to load a bunch of files into memory or write a bunch of files to disk, without really doing any transformations, consider using threads as the work is mostly disk I/O and not CPU bound. 
+
+**Most importantly**, try avoid having to think about processes and threads where you can and use scientific computing libraries like [numpy](https://numpy.org/) and write [vectorized](https://realpython.com/numpy-array-programming/) operations wherever you can.  Its always worth being aware of the concurrency tools available in the library or framework you are using (especially numerical computing and other data science libraries) and consider using them when appropriate.
 
 # Asynchronous programming
 
