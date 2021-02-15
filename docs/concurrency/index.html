@@ -50,7 +50,7 @@
 <meta itemprop="description" content="An exploration of threads, processes, and coroutines in Python, with interesting examples that illuminate the differences between each.">
 <meta itemprop="datePublished" content="2020-02-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-02-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="3917">
+<meta itemprop="wordCount" content="3975">
 <meta itemprop="image" content="https://python.hamel.dev/cpu.jpg">
 
 
@@ -645,13 +645,14 @@
 <ol>
 <li>The requests/sec are lower than the thread based version, because there is more overhead required to execute tasks in a pool.</li>
 <li>However, if you also run <a href="https://github.com/dabeaz/concurrencylive/blob/master/perf1.py">perf1.py</a> it will not materially interfere with the first task (from <code>perf2.py</code>), as this will not compete for resources on the same CPU.</li>
+<li>The above example involves a CPU-bound task (computing the fibonacci number).  However, if we simulated a non CPU-bound task instead such as <code>time.sleep()</code>, using processes instead of threads would actually be detrimental to overall performance.  A concrete example of this is provided in the <a href="#a-note-for-data-scientists-processes-vs-threads">section below</a>.</li>
 </ol>
 <p>This is a realistic example that allow you to gain more intuition about how threads and processes work. <a href="https://realpython.com/python-concurrency">This tutorial</a> contains more examples of Python processes and threads.</p>
 <h2 id="a-note-for-data-scientists-processes-vs-threads">A note for data scientists: processes vs. threads</h2>
-<p>I&rsquo;ve found many data scientists (formerly including myself) blindly apply processes and completely ignore threads.  I understand why - processes are a kind of least common denominator where you can achieve some kind of parallelism regardless of if your task is CPU bound or not. However, I&rsquo;ve found that doing this is very suboptimal and prevented me from utilizing all the compute sources available to me.  Some examples to clarify where threads or processes might be more appropriate:</p>
+<p>I&rsquo;ve found many data scientists (formerly including myself) blindly apply processes and completely ignore threads.  I understand why - processes are a kind of least common denominator where you can achieve some kind of parallelism regardless of if your task is CPU bound or not. However, I&rsquo;ve found that this approach is very suboptimal and prevents full utilization of compute sources.  Some examples to clarify where threads or processes might be more appropriate:</p>
 <ul>
 <li>
-<p>If you are downloading lots of files from the internet, consider using threads.  This is because most of your time is spent on network I/O, not on the CPU.</p>
+<p>If you are downloading lots of files from the internet, consider using threads.  This is because most of your time is spent on network I/O, not on the CPU. For example, <a href="https://realpython.com/python-concurrency/">this article</a> demonstrates a 50% speedup when using threads compared to processes for downloading files.</p>
 </li>
 <li>
 <p>If you are transforming or cleaning a large dataset, this work is mostly CPU bound so using processes makes sense.  The only part of this that isn&rsquo;t CPU-bound is reading and writing the data to disk.</p>

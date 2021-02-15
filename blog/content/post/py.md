@@ -333,14 +333,15 @@ And run the profiler [perf2.py](https://github.com/dabeaz/concurrencylive/blob/m
 
 1. The requests/sec are lower than the thread based version, because there is more overhead required to execute tasks in a pool.
 2. However, if you also run [perf1.py](https://github.com/dabeaz/concurrencylive/blob/master/perf1.py) it will not materially interfere with the first task (from `perf2.py`), as this will not compete for resources on the same CPU.
+3. The above example involves a CPU-bound task (computing the fibonacci number).  However, if we simulated a non CPU-bound task instead such as `time.sleep()`, using processes instead of threads would actually be detrimental to overall performance.  A concrete example of this is provided in the [section below](#a-note-for-data-scientists-processes-vs-threads).
 
 This is a realistic example that allow you to gain more intuition about how threads and processes work. [This tutorial](https://realpython.com/python-concurrency) contains more examples of Python processes and threads.
 
 ## A note for data scientists: processes vs. threads
 
-I've found many data scientists (formerly including myself) blindly apply processes and completely ignore threads.  I understand why - processes are a kind of least common denominator where you can achieve some kind of parallelism regardless of if your task is CPU bound or not. However, I've found that doing this is very suboptimal and prevented me from utilizing all the compute sources available to me.  Some examples to clarify where threads or processes might be more appropriate:
+I've found many data scientists (formerly including myself) blindly apply processes and completely ignore threads.  I understand why - processes are a kind of least common denominator where you can achieve some kind of parallelism regardless of if your task is CPU bound or not. However, I've found that this approach is very suboptimal and prevents full utilization of compute sources.  Some examples to clarify where threads or processes might be more appropriate:
 
-- If you are downloading lots of files from the internet, consider using threads.  This is because most of your time is spent on network I/O, not on the CPU. 
+- If you are downloading lots of files from the internet, consider using threads.  This is because most of your time is spent on network I/O, not on the CPU. For example, [this article](https://realpython.com/python-concurrency/) demonstrates a 50% speedup when using threads compared to processes for downloading files.
 
 - If you are transforming or cleaning a large dataset, this work is mostly CPU bound so using processes makes sense.  The only part of this that isn't CPU-bound is reading and writing the data to disk.
 
