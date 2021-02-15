@@ -348,7 +348,7 @@ I've found many data scientists (formerly including myself) blindly apply proces
 
 - Keep in mind that threads can be more memory efficient than processes because of [differences in the way they work](#how-threads-work).  So using lots of processes when you don't need them can lead to memory bloat.
 
-**Most importantly**, try avoid having to think about processes and threads where you can and use scientific computing libraries like [numpy](https://numpy.org/) and write [vectorized](https://realpython.com/numpy-array-programming/) operations wherever you can.  Its always worth being aware of the concurrency tools available in the library or framework you are using (especially numerical computing and other data science libraries) and consider using them when appropriate.
+**Most importantly**, try avoid having to think about processes and threads where you can and use scientific computing libraries like [numpy](https://numpy.org/) and write [vectorized](https://realpython.com/numpy-array-programming/) operations wherever you can.  It is always worth being aware of the concurrency tools available in the library or framework you are using (especially numerical computing and other data science libraries) and consider using them when appropriate.
 
 # Asynchronous programming
 
@@ -402,7 +402,7 @@ One of the most popular ways to accomplish async programming is by using the var
 
 # Conclusion
 
-There is no silver bullet with regards to choosing the correct type of concurrency to use in Python.  You have to consider how much of your task is CPU bound vs non-CPU bound (and if its feasible to break up the task appropriately) to determine whether tweaking your code will make a material difference.
+There is no silver bullet with regards to choosing the correct type of concurrency to use in Python.  You have to consider how much of your task is CPU bound vs non-CPU bound (and if it is feasible to break up the task appropriately) to determine whether tweaking your code will make a material difference.
 
 Most importantly, I recommend only reaching for these tools when you need them rather than trying to prematurely optimize your code.  **Always start with the simplest code, without any concurrency, and build incrementally from there.**  If you do add concurrency, make sure you can justify it through a measurable difference in performance or functionality.  I've sometimes found that my code was slow in places I didn't expect and that concurrency wasn't the tool I needed at all! 
 

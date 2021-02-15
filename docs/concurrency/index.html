@@ -50,7 +50,7 @@
 <meta itemprop="description" content="An exploration of threads, processes, and coroutines in Python, with interesting examples that illuminate the differences between each.">
 <meta itemprop="datePublished" content="2020-02-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-02-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="3950">
+<meta itemprop="wordCount" content="3952">
 <meta itemprop="image" content="https://python.hamel.dev/cpu.jpg">
 
 
@@ -663,7 +663,7 @@
 <p>Keep in mind that threads can be more memory efficient than processes because of <a href="#how-threads-work">differences in the way they work</a>.  So using lots of processes when you don&rsquo;t need them can lead to memory bloat.</p>
 </li>
 </ul>
-<p><strong>Most importantly</strong>, try avoid having to think about processes and threads where you can and use scientific computing libraries like <a href="https://numpy.org/">numpy</a> and write <a href="https://realpython.com/numpy-array-programming/">vectorized</a> operations wherever you can.  Its always worth being aware of the concurrency tools available in the library or framework you are using (especially numerical computing and other data science libraries) and consider using them when appropriate.</p>
+<p><strong>Most importantly</strong>, try avoid having to think about processes and threads where you can and use scientific computing libraries like <a href="https://numpy.org/">numpy</a> and write <a href="https://realpython.com/numpy-array-programming/">vectorized</a> operations wherever you can.  It is always worth being aware of the concurrency tools available in the library or framework you are using (especially numerical computing and other data science libraries) and consider using them when appropriate.</p>
 <h1 id="asynchronous-programming">Asynchronous programming</h1>
 <p>Recall that Python can only operate on one thread at a time, and the operating system automatically decides when to interrupt each thread to allow the threads to take turns running.  This is called <a href="https://en.wikipedia.org/wiki/Preemption_%28computing%29#Preemptive_multitasking">pre-emptive multitasking</a> since the operating system, not you, determine when your thread makes the switch.  When you don&rsquo;t care about how tasks are interleaved, threads are great because you don&rsquo;t have to worry about how they are scheduled.</p>
 <p>However, there is third type of concurrency paradigm in Python that allows you to control how this switching occurs: Asynchronous Programming.  This is also called <a href="https://en.wikipedia.org/wiki/Cooperative_multitasking">cooperative multitasking</a> which means each task must announce when it wants to switch. Another term used for cooperative multitasking is a <a href="https://www.geeksforgeeks.org/coroutine-in-python/">coroutine</a>.</p>
@@ -744,7 +744,7 @@
 </div><p>This clever use of <code>yield</code> allows you to pause execution of a task and move onto a different task kind of like threading, except <strong>you</strong>, not the operating system are controlling how compute is interleaved.  This is the key intuition for understanding the rest of the talk, which goes on to to push this example further.</p>
 <p>One of the most popular ways to accomplish async programming is by using the various utilities in the built-in <a href="https://docs.python.org/3/library/asyncio.html">asyncio</a> module, which uses similar yield statements under the hood. I didn&rsquo;t end up diving deeply into the asyncio module or this particular flavor of programming as my goal was to understand the concept so that I wouldn&rsquo;t be lost when encountering this in the wild.</p>
 <h1 id="conclusion">Conclusion</h1>
-<p>There is no silver bullet with regards to choosing the correct type of concurrency to use in Python.  You have to consider how much of your task is CPU bound vs non-CPU bound (and if its feasible to break up the task appropriately) to determine whether tweaking your code will make a material difference.</p>
+<p>There is no silver bullet with regards to choosing the correct type of concurrency to use in Python.  You have to consider how much of your task is CPU bound vs non-CPU bound (and if it is feasible to break up the task appropriately) to determine whether tweaking your code will make a material difference.</p>
 <p>Most importantly, I recommend only reaching for these tools when you need them rather than trying to prematurely optimize your code.  <strong>Always start with the simplest code, without any concurrency, and build incrementally from there.</strong>  If you do add concurrency, make sure you can justify it through a measurable difference in performance or functionality.  I&rsquo;ve sometimes found that my code was slow in places I didn&rsquo;t expect and that concurrency wasn&rsquo;t the tool I needed at all!</p>
 <p>Profiling your code is beyond the scope of this blog post, however I hope this post demystified the confusing jungle of terminology of python concurrency so that you can more quickly navigate these topics in the future.</p>
 <h1 id="other-notes">Other Notes</h1>
