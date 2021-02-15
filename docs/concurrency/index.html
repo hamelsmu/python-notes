@@ -50,7 +50,7 @@
 <meta itemprop="description" content="An exploration of threads, processes, and coroutines in Python, with interesting examples that illuminate the differences between each.">
 <meta itemprop="datePublished" content="2020-02-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-02-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="3496">
+<meta itemprop="wordCount" content="3533">
 <meta itemprop="image" content="https://python.hamel.dev/cpu.jpg">
 
 
@@ -163,7 +163,11 @@
         <li><a href="#how-threads-work">How threads work</a></li>
       </ul>
     </li>
-    <li><a href="#processes-for-cpu-bound-tasks">Processes For CPU Bound Tasks</a></li>
+    <li><a href="#processes-for-cpu-bound-tasks">Processes For CPU Bound Tasks</a>
+      <ul>
+        <li><a href="#a-note-for-data-scientists-processes-vs-threads">A note for data scientists: processes vs. threads</a></li>
+      </ul>
+    </li>
     <li><a href="#asynchronous-programming">Asynchronous programming</a></li>
     <li><a href="#conclusion">Conclusion</a></li>
     <li><a href="#other-notes">Other Notes</a>
@@ -643,6 +647,8 @@
 <li>However, if you also run <a href="https://github.com/dabeaz/concurrencylive/blob/master/perf1.py">perf1.py</a> it will not materially interfere with the first task (from <code>perf2.py</code>), as this will not compete for resources on the same CPU.</li>
 </ol>
 <p>This is a realistic example that allow you to gain more intuition about how threads and processes work. <a href="https://realpython.com/python-concurrency">This tutorial</a> contains more examples of Python processes and threads.</p>
+<h2 id="a-note-for-data-scientists-processes-vs-threads">A note for data scientists: processes vs. threads</h2>
+<p>I realize that most of my audience are data scientists.  I&rsquo;ve found many data scientists (formerly including myself) blindly apply processes and completely ignore threads all together.</p>
 <h1 id="asynchronous-programming">Asynchronous programming</h1>
 <p>Recall that Python can only operate on one thread at a time, and the operating system automatically decides when to interrupt each thread to allow the threads to take turns running.  This is called <a href="https://en.wikipedia.org/wiki/Preemption_%28computing%29#Preemptive_multitasking">pre-emptive multitasking</a> since the operating systems, not you, determine when your thread makes the switch.  When you don&rsquo;t care about how tasks are interleaved, threads are great because you don&rsquo;t have to worry about how they are scheduled.</p>
 <p>However, there is third type of concurrency paradigm in Python that allows you to control how this switching occurs: Asynchronous Programming.  This is also called <a href="https://en.wikipedia.org/wiki/Cooperative_multitasking">cooperative multitasking</a> which means each task must announce when it wants to switch. Another term used for cooperative multitasking is a <a href="https://www.geeksforgeeks.org/coroutine-in-python/">coroutine</a>.</p>
@@ -741,7 +747,7 @@
 <li>The PyCon <a href="https://youtu.be/MCs5OvhV9S4">youtube video</a> for this talk.</li>
 <li>David&rsquo;s <a href="https://www.dabeaz.com/">page</a> including links to courses.</li>
 </ul>
-<p>Thanks to <a href="https://www.fast.ai/about/#jeremy">Jeremy Howard</a> and <a href="https://twitter.com/TheZachMueller">Zach Mueller</a>  for reviewing this post.</p>
+<p>Thanks to <a href="https://www.fast.ai/about/#jeremy">Jeremy Howard</a>, <a href="https://twitter.com/dan_s_becker">Dan Becker</a>, and <a href="https://twitter.com/TheZachMueller">Zach Mueller</a>  for reviewing this post.</p>
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
