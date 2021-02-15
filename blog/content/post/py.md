@@ -30,7 +30,7 @@ This changed when a friend of mine[^6] recommended [a live coding talk](https://
 
 _Because of restrictions with this YouTube video, I couldn't embed [the video](https://youtu.be/MCs5OvhV9S4) in this article, so you will have to open it in a different window_.
 
-This talk is incredibly intimidating at first.  Not only is it coded live from scratch, but it also jumps immediately into socket programming, something that I had never encountered as a data scientist.  However, I was encouraged to take things slow and deeply understand this talk, and attempt to understand each piece bit by bit.  This blog post documents what I learned along the way with the hope that it will benefit others.
+This talk is incredibly intimidating at first.  Not only is it coded live from scratch, but it also jumps immediately into socket programming, something that I had never encountered as a data scientist.  However, if you go through it slowly and understand all the components (as we do in this blog post) it turns out to be the best educational material on Python concurrency I have ever encountered.  This blog post documents what I learned along the way so others can benefit, too.
 
 # Prerequisites
 

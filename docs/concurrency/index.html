@@ -50,7 +50,7 @@
 <meta itemprop="description" content="An exploration of threads, processes, and coroutines in Python, with interesting examples that illuminate the differences between each.">
 <meta itemprop="datePublished" content="2020-02-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-02-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="3952">
+<meta itemprop="wordCount" content="3962">
 <meta itemprop="image" content="https://python.hamel.dev/cpu.jpg">
 
 
@@ -187,7 +187,7 @@
 <p>As <a href="https://hamel.dev/">a data scientist who is spending more time on software engineering</a>, I was recently forced to confront an ugly gap in my knowledge of Python: concurrency.  To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together.  Every time I tried to learn about the subject, the examples were a bit too abstract for me, and I hard time internalizing how everything worked.</p>
 <p>This changed when a friend of mine<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> recommended <a href="https://youtu.be/MCs5OvhV9S4">a live coding talk</a> by <a href="https://www.dabeaz.com/">Daivd Beazley</a>, an accomplished Python educator.</p>
 <p><em>Because of restrictions with this YouTube video, I couldn&rsquo;t embed <a href="https://youtu.be/MCs5OvhV9S4">the video</a> in this article, so you will have to open it in a different window</em>.</p>
-<p>This talk is incredibly intimidating at first.  Not only is it coded live from scratch, but it also jumps immediately into socket programming, something that I had never encountered as a data scientist.  However, I was encouraged to take things slow and deeply understand this talk, and attempt to understand each piece bit by bit.  This blog post documents what I learned along the way with the hope that it will benefit others.</p>
+<p>This talk is incredibly intimidating at first.  Not only is it coded live from scratch, but it also jumps immediately into socket programming, something that I had never encountered as a data scientist.  However, if you go through it slowly and understand all the components (as we do in this blog post) it turns out to be the best educational material on Python concurrency I have ever encountered.  This blog post documents what I learned along the way so others can benefit, too.</p>
 <h1 id="prerequisites">Prerequisites</h1>
 <p>Before getting started, David sets up the following infrastructure that is used to demonstrate concurrency.</p>
 <h2 id="a-cpu-bound-task-fibonacci">A cpu-bound task: Fibonacci</h2>
