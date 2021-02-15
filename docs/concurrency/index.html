@@ -50,7 +50,7 @@
 <meta itemprop="description" content="An exploration of threads, processes, and coroutines in Python, with interesting examples that illuminate the differences between each.">
 <meta itemprop="datePublished" content="2020-02-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-02-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="3975">
+<meta itemprop="wordCount" content="3977">
 <meta itemprop="image" content="https://python.hamel.dev/cpu.jpg">
 
 
@@ -667,7 +667,7 @@
 <p><strong>Most importantly</strong>, try avoid having to think about processes and threads where you can and use scientific computing libraries like <a href="https://numpy.org/">numpy</a> and write <a href="https://realpython.com/numpy-array-programming/">vectorized</a> operations wherever you can.  It is always worth being aware of the concurrency tools available in the library or framework you are using (especially numerical computing and other data science libraries) and consider using them when appropriate.</p>
 <h1 id="asynchronous-programming">Asynchronous programming</h1>
 <p>Recall that Python can only operate on one thread at a time, and the operating system automatically decides when to interrupt each thread to allow the threads to take turns running.  This is called <a href="https://en.wikipedia.org/wiki/Preemption_%28computing%29#Preemptive_multitasking">pre-emptive multitasking</a> since the operating system, not you, determine when your thread makes the switch.  When you don&rsquo;t care about how tasks are interleaved, threads are great because you don&rsquo;t have to worry about how they are scheduled.</p>
-<p>However, there is third type of concurrency paradigm in Python that allows you to control how this switching occurs: Asynchronous Programming.  This is also called <a href="https://en.wikipedia.org/wiki/Cooperative_multitasking">cooperative multitasking</a> which means each task must announce when it wants to switch. Another term used for cooperative multitasking is a <a href="https://www.geeksforgeeks.org/coroutine-in-python/">coroutine</a>.</p>
+<p>However, there is third type of concurrency paradigm in Python that allows you to control how this switching occurs: Asynchronous Programming.  This is also called <a href="https://en.wikipedia.org/wiki/Cooperative_multitasking">cooperative multitasking</a> which means each task must announce when it wants to switch. One way to achieve cooperative multitasking is to create a <a href="https://www.geeksforgeeks.org/coroutine-in-python/">coroutine</a>.</p>
 <p>One way to create coroutines in Python is by using the <code>yield</code> statement.  David provides some intuition on how you can achieve multi-tasking with yield in the following code:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
