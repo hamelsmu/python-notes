@@ -336,6 +336,10 @@ And run the profiler [perf2.py](https://github.com/dabeaz/concurrencylive/blob/m
 
 This is a realistic example that allow you to gain more intuition about how threads and processes work. [This tutorial](https://realpython.com/python-concurrency) contains more examples of Python processes and threads.
 
+## A note for data scientists: processes vs. threads
+
+I realize that most of my audience are data scientists.  I've found many data scientists (formerly including myself) blindly apply processes and completely ignore threads all together.  
+
 # Asynchronous programming
 
 Recall that Python can only operate on one thread at a time, and the operating system automatically decides when to interrupt each thread to allow the threads to take turns running.  This is called [pre-emptive multitasking](https://en.wikipedia.org/wiki/Preemption_%28computing%29#Preemptive_multitasking) since the operating systems, not you, determine when your thread makes the switch.  When you don't care about how tasks are interleaved, threads are great because you don't have to worry about how they are scheduled.
@@ -412,7 +416,7 @@ The following is terminology associated with Python concurrency that is often co
 - The PyCon [youtube video](https://youtu.be/MCs5OvhV9S4) for this talk.
 - David's [page](https://www.dabeaz.com/) including links to courses.
 
-Thanks to [Jeremy Howard](https://www.fast.ai/about/#jeremy) and [Zach Mueller](https://twitter.com/TheZachMueller)  for reviewing this post.
+Thanks to [Jeremy Howard](https://www.fast.ai/about/#jeremy), [Dan Becker](https://twitter.com/dan_s_becker), and [Zach Mueller](https://twitter.com/TheZachMueller)  for reviewing this post.
 
 [^1]: This fibonacci algorithm runs in O(n<sup>2</sup>) time.
 [^2]: If the `monitor` task took any meaningful CPU time then the rest of the program would not run as "usual" because it might be competing for resources.  But that is not the case here.
