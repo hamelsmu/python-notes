@@ -110,11 +110,11 @@ You can type numbers in [as David does in his video](https://youtu.be/MCs5OvhV9S
 telnet localhost 25000
 ```
 
-You will notice that the second client just hangs and doesn't return anything from the server.  This is because the server is only able to accept a single connection.  Next, we explore how we can tackle this issue.
+You will notice that the second client just hangs and doesn't return anything from the server.  This is because the server is only able to accept a single connection.  Next, we explore how to tackle this issue.
 
 # Threads
 
-A way to solve this issue is to use threads.  You can add threads to the handler so that more connections can be accepted with the following code highlighted in yellow:
+We can solve this issue with threads.  You can add threads to the handler so that more connections can be accepted with the following code highlighted in yellow:
 
 ```py3 {hl_lines=[3,13]}
 from socket import *
@@ -185,7 +185,7 @@ You will see the execution times for each script linearly increase as you increa
 
 Python threads work by interleaving the execution of different tasks on your CPU.[^5]  Only one thread runs at a time, and have the ability to take turns executing in small bits until all threads are done.  The details of how thread processing is interleaved is carried out by the GIL and your operating system, so you need not worry about this detail (with one exception mentioned below).  Interleaving a bunch of CPU bound tasks will not speed up the total runtime of those tasks.  However, if your tasks involve lots of non-CPU time, such as waiting for network connections, or disk I/O, threading tasks may result in a considerable speedup.  A canonical way of simulating a non-cpu bound task in python is to use the built-in function `time.sleep()`.  
 
-To check my understanding about threads and performance, I edited the below code[^7] and changed `time.sleep(2)` to `fib(20)` and back again:
+To check my understanding about threads and performance, I ran the below experiment[^7] and changed `time.sleep(2)` to `fib(20)` and back again:
 
 ```py {hl_lines=[4,8]}
 import logging
@@ -219,7 +219,7 @@ if __name__ == "__main__":
     print(f'total time: {end-start}')
 ```
 
-As expected, increasing the number of threads while running `time.sleep(2)` did not increase the program's overall execution time (the program runs in roughly 2 seconds).  On the other hand, replacing `time.sleep(2)` with `fib(20)` causes this program's running time to increase as more threads are added. This is because `fib(20)` is a cpu bound task so interleaving the task doesn't really help much.
+As expected, increasing the number of threads while running `time.sleep(2)` did not increase the program's overall execution time (the program runs in roughly 2 seconds).  On the other hand, replacing `time.sleep(2)` with `fib(20)` causes this program's running time to increase as more threads are added. This is because `fib(20)` is a cpu bound task so interleaving the task doesn't really help much.  You should try running the same thing to see for yourself.
 
 > You will often hear that Python is not good at parallelism and that you can only run on one CPU core at a time.  They are likely referring to the aforementioned issues with threads and the GIL.  Because you are limited to one thread, this  means that thread-based tasks can only use one CPU core at a time (a single thread cannot run across multiple CPUs).  Outside of Python, threads are a popular choice for parallelizing CPU-bound tasks because you are able to run a separate thread per CPU core simultaneously.  However, with Python you must look for other ways to accomplish parallelism for cpu-bound tasks.
 
@@ -274,9 +274,9 @@ A thread is always contained in a processes, and each processes contains one or 
 
 A process can span across multiple CPU cores, however a single thread can only utilize one CPU core.
 
-Generally speaking, only one thread can run cpu-bound tasks on a single core at any given time.  If multiple threads are sharing a CPU core, your operating system will interleave these threads.  There are many exceptions  to this rule. For example single CPU cores are able to run multiple threads concurrently by using things like [SMT/hyper-threading](https://en.wikipedia.org/wiki/Simultaneous_multithreading) or compute over data in parallel using [SIMD](https://en.wikipedia.org/wiki/SIMD), which is popular in scientific computing libraries.
+Generally speaking, only one thread can run cpu-bound tasks on a single core at any given time.  If multiple threads are sharing a CPU core, your operating system will interleave these threads.  There are some exceptions  to this rule. For example single CPU cores are able to run multiple threads concurrently by using things like [SMT/hyper-threading](https://en.wikipedia.org/wiki/Simultaneous_multithreading) or compute over data in parallel using [SIMD](https://en.wikipedia.org/wiki/SIMD), which is popular in scientific computing libraries.
 
-On the other hand, Processes offer isolation which is helpful when you have different users or different programs that should not be sharing information.  Since we cannot run more than a single thread at a time in Python, a common workaround is to spawn several Python processes.  This is discussed more below.
+On the other hand, processes offer isolation which is helpful when you have different users or different programs that should not be sharing information.  Since we cannot run more than a single thread at a time in Python, a common workaround is to spawn several Python processes.  This is discussed more below.
 
 Chapter 2 of [This book](https://www.amazon.com/Modern-Operating-Systems-Andrew-Tanenbaum/dp/013359162X) discusses what processes and threads are in greater detail from an operating system perspective.
 
@@ -340,7 +340,7 @@ This is a realistic example that allow you to gain more intuition about how thre
 
 I've found many data scientists (formerly including myself) blindly apply processes and completely ignore threads.  I understand why - processes are a kind of least common denominator where you can achieve some kind of parallelism regardless of if your task is CPU bound or not. However, I've found that doing this is very suboptimal and prevented me from utilizing all the compute sources available to me.  Some examples to clarify where threads or processes might be more appropriate:
 
-- If you are downloading lots of files from the internet, consider using threads.  This is because most of your time is spent on network I/O, not on the CPU.  If you have tons files to download and you _really_ want to maximize the number of threads, you can also spawn a bunch of [threads inside several processes](https://stackoverflow.com/a/45130246/1518630).  However, I generally recommend avoiding complexity unless absolutely necessary so just stick with threads by themselves unless you really need something fancier.
+- If you are downloading lots of files from the internet, consider using threads.  This is because most of your time is spent on network I/O, not on the CPU. 
 
 - If you are transforming or cleaning a large dataset, this work is mostly CPU bound so using processes makes sense.  The only part of this that isn't CPU-bound is reading and writing the data to disk.
 
@@ -402,7 +402,7 @@ One of the most popular ways to accomplish async programming is by using the var
 
 # Conclusion
 
-There is no silver bullet with regards to choosing the correct type of concurrency to use in Python.  You have to consider how much of your task is CPU bound vs non-CPU bound (and if it is feasible to break up the task appropriately) to determine whether tweaking your code will make a material difference.
+There is no silver bullet with regards to choosing the correct type of concurrency in Python.  You have to consider how much of your task is CPU bound vs non-CPU bound (and if it is feasible to break up the task appropriately) to determine whether tweaking your code will make a material difference.
 
 Most importantly, I recommend only reaching for these tools when you need them rather than trying to prematurely optimize your code.  **Always start with the simplest code, without any concurrency, and build incrementally from there.**  If you do add concurrency, make sure you can justify it through a measurable difference in performance or functionality.  I've sometimes found that my code was slow in places I didn't expect and that concurrency wasn't the tool I needed at all! 
 
