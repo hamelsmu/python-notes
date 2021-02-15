@@ -404,7 +404,7 @@ One of the most popular ways to accomplish async programming is by using the var
 
 There is no silver bullet with regards to choosing the correct type of concurrency to use in Python.  You have to consider how much of your task is CPU bound vs non-CPU bound (and if its feasible to break up the task appropriately) to determine whether tweaking your code will make a material difference.
 
-Most importantly, I recommend only reaching for these tools when you need them rather than trying to prematurely optimize your code.  **Always start with the simplest code, without any concurrency, and build incrementally from there.**  If you do add concurrency, make sure you can justify it through a measurable difference in performance or functionality.  I've sometimes found that my code was slow in places I didn't expect and that concurrency wasn't really even the tool I needed at all! 
+Most importantly, I recommend only reaching for these tools when you need them rather than trying to prematurely optimize your code.  **Always start with the simplest code, without any concurrency, and build incrementally from there.**  If you do add concurrency, make sure you can justify it through a measurable difference in performance or functionality.  I've sometimes found that my code was slow in places I didn't expect and that concurrency wasn't the tool I needed at all! 
 
 Profiling your code is beyond the scope of this blog post, however I hope this post demystified the confusing jungle of terminology of python concurrency so that you can more quickly navigate these topics in the future.
 
