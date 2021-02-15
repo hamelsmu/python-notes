@@ -430,7 +430,7 @@ The following is terminology associated with Python concurrency that is often co
 - The PyCon [youtube video](https://youtu.be/MCs5OvhV9S4) for this talk.
 - David's [page](https://www.dabeaz.com/) including links to courses.  I recently took David's [Advanced Python class](https://www.dabeaz.com/advprog.html) and it was excellent.
 
-Thanks to [Jeremy Howard](https://www.fast.ai/about/#jeremy), [Dan Becker](https://twitter.com/dan_s_becker), and [Zach Mueller](https://twitter.com/TheZachMueller)  for reviewing this post.
+Thanks to [Jeremy Howard](https://twitter.com/jeremyphoward), [Dan Becker](https://twitter.com/dan_s_becker), and [Zach Mueller](https://twitter.com/TheZachMueller)  for reviewing this post.
 
 [^1]: This fibonacci algorithm runs in O(n<sup>2</sup>) time.
 [^2]: If the `monitor` task took any meaningful CPU time then the rest of the program would not run as "usual" because it might be competing for resources.  But that is not the case here.

@@ -50,7 +50,7 @@
 <meta itemprop="description" content="An exploration of threads, processes, and coroutines in Python, with interesting examples that illuminate the differences between each.">
 <meta itemprop="datePublished" content="2020-02-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-02-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="3952">
+<meta itemprop="wordCount" content="3950">
 <meta itemprop="image" content="https://python.hamel.dev/cpu.jpg">
 
 
@@ -745,7 +745,7 @@
 <p>One of the most popular ways to accomplish async programming is by using the various utilities in the built-in <a href="https://docs.python.org/3/library/asyncio.html">asyncio</a> module, which uses similar yield statements under the hood. I didn&rsquo;t end up diving deeply into the asyncio module or this particular flavor of programming as my goal was to understand the concept so that I wouldn&rsquo;t be lost when encountering this in the wild.</p>
 <h1 id="conclusion">Conclusion</h1>
 <p>There is no silver bullet with regards to choosing the correct type of concurrency to use in Python.  You have to consider how much of your task is CPU bound vs non-CPU bound (and if its feasible to break up the task appropriately) to determine whether tweaking your code will make a material difference.</p>
-<p>Most importantly, I recommend only reaching for these tools when you need them rather than trying to prematurely optimize your code.  <strong>Always start with the simplest code, without any concurrency, and build incrementally from there.</strong>  If you do add concurrency, make sure you can justify it through a measurable difference in performance or functionality.  I&rsquo;ve sometimes found that my code was slow in places I didn&rsquo;t expect and that concurrency wasn&rsquo;t really even the tool I needed at all!</p>
+<p>Most importantly, I recommend only reaching for these tools when you need them rather than trying to prematurely optimize your code.  <strong>Always start with the simplest code, without any concurrency, and build incrementally from there.</strong>  If you do add concurrency, make sure you can justify it through a measurable difference in performance or functionality.  I&rsquo;ve sometimes found that my code was slow in places I didn&rsquo;t expect and that concurrency wasn&rsquo;t the tool I needed at all!</p>
 <p>Profiling your code is beyond the scope of this blog post, however I hope this post demystified the confusing jungle of terminology of python concurrency so that you can more quickly navigate these topics in the future.</p>
 <h1 id="other-notes">Other Notes</h1>
 <p>Not all programs that run in Python using threads are limited to a single CPU.  It is possible to escape the constraints of the GIL by carefully writing C code that has a Python interface.  This is what popular scientific computing libraries such as <a href="https://scipy.github.io/old-wiki/pages/ParallelProgramming">NumPy and SciPy</a> do to achieve parallelism.</p>
@@ -764,7 +764,7 @@
 <li>The PyCon <a href="https://youtu.be/MCs5OvhV9S4">youtube video</a> for this talk.</li>
 <li>David&rsquo;s <a href="https://www.dabeaz.com/">page</a> including links to courses.  I recently took David&rsquo;s <a href="https://www.dabeaz.com/advprog.html">Advanced Python class</a> and it was excellent.</li>
 </ul>
-<p>Thanks to <a href="https://www.fast.ai/about/#jeremy">Jeremy Howard</a>, <a href="https://twitter.com/dan_s_becker">Dan Becker</a>, and <a href="https://twitter.com/TheZachMueller">Zach Mueller</a>  for reviewing this post.</p>
+<p>Thanks to <a href="https://twitter.com/jeremyphoward">Jeremy Howard</a>, <a href="https://twitter.com/dan_s_becker">Dan Becker</a>, and <a href="https://twitter.com/TheZachMueller">Zach Mueller</a>  for reviewing this post.</p>
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
