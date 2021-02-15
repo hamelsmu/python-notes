@@ -402,7 +402,11 @@ One of the most popular ways to accomplish async programming is by using the var
 
 # Conclusion
 
-I was so impressed by this talk, that I decided to enroll in David's [Advanced Python class](https://www.dabeaz.com/advprog.html).  David offers a number of [interesting courses](https://www.dabeaz.com/index.html) for programmers.  I never would have anticipated signing up for this class, but there is something really unique about the depth of David's knowledge.  I will write other blog posts documenting the things I learn on [this blog](https://python.hamel.dev).
+There is no silver bullet with regards to choosing the correct type of concurrency to use in Python.  You have to consider how much of your task is CPU bound vs non-CPU bound (and if its feasible to break up the task appropriately) to determine whether tweaking your code will make a material difference.
+
+Most importantly, I recommend only reaching for these tools when you need them rather than trying to prematurely optimize your code.  **Always start with the simplest code, without any concurrency, and build incrementally from there.**  If you do add concurrency, make sure you can justify it through a measurable difference in performance or functionality.  I've sometimes found that my code was slow in places I didn't expect and that concurrency wasn't really even the tool I needed at all! 
+
+Profiling your code is beyond the scope of this blog post, however I hope this post demystified the confusing jungle of terminology of python concurrency so that you can more quickly navigate these topics in the future.
 
 # Other Notes
 
@@ -424,7 +428,7 @@ The following is terminology associated with Python concurrency that is often co
 
 - [GitHub repo](https://github.com/dabeaz/concurrencylive) that contains David's code.
 - The PyCon [youtube video](https://youtu.be/MCs5OvhV9S4) for this talk.
-- David's [page](https://www.dabeaz.com/) including links to courses.
+- David's [page](https://www.dabeaz.com/) including links to courses.  I recently took David's [Advanced Python class](https://www.dabeaz.com/advprog.html) and it was excellent.
 
 Thanks to [Jeremy Howard](https://www.fast.ai/about/#jeremy), [Dan Becker](https://twitter.com/dan_s_becker), and [Zach Mueller](https://twitter.com/TheZachMueller)  for reviewing this post.
 
