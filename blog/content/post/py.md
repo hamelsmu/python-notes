@@ -352,7 +352,7 @@ I've found many data scientists (formerly including myself) blindly apply proces
 
 # Asynchronous programming
 
-Recall that Python can only operate on one thread at a time, and the operating system automatically decides when to interrupt each thread to allow the threads to take turns running.  This is called [pre-emptive multitasking](https://en.wikipedia.org/wiki/Preemption_%28computing%29#Preemptive_multitasking) since the operating systems, not you, determine when your thread makes the switch.  When you don't care about how tasks are interleaved, threads are great because you don't have to worry about how they are scheduled.
+Recall that Python can only operate on one thread at a time, and the operating system automatically decides when to interrupt each thread to allow the threads to take turns running.  This is called [pre-emptive multitasking](https://en.wikipedia.org/wiki/Preemption_%28computing%29#Preemptive_multitasking) since the operating system, not you, determine when your thread makes the switch.  When you don't care about how tasks are interleaved, threads are great because you don't have to worry about how they are scheduled.
 
 However, there is third type of concurrency paradigm in Python that allows you to control how this switching occurs: Asynchronous Programming.  This is also called [cooperative multitasking](https://en.wikipedia.org/wiki/Cooperative_multitasking) which means each task must announce when it wants to switch. Another term used for cooperative multitasking is a [coroutine](https://www.geeksforgeeks.org/coroutine-in-python/).
 
