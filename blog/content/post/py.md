@@ -430,7 +430,7 @@ The following is terminology associated with Python concurrency that is often co
 - [GitHub repo](https://github.com/dabeaz/concurrencylive) that contains David's code.
 - The PyCon [youtube video](https://youtu.be/MCs5OvhV9S4) for this talk.
 - David's [page](https://www.dabeaz.com/) including links to courses.  I recently took David's [Advanced Python class](https://www.dabeaz.com/advprog.html) and it was excellent.
-- I read the first two chapters of [this book](https://www.amazon.com/Modern-Operating-Systems-Andrew-Tanenbaum/dp/013359162X) on Operating Systems to research how processes and threads worked. However I've been told[^8] that [this free book](https://pages.cs.wisc.edu/~remzi/OSTEP/) and [this book](https://www.amazon.com/Advanced-Programming-UNIX-Environment-3rd/dp/0321637739) are good choices as well.
+- I read the first two chapters of [this book](https://www.amazon.com/Modern-Operating-Systems-Andrew-Tanenbaum/dp/013359162X) on operating systems to research how processes and threads worked. However, I've been told[^8] that [this free book](https://pages.cs.wisc.edu/~remzi/OSTEP/) and [this book](https://www.amazon.com/Advanced-Programming-UNIX-Environment-3rd/dp/0321637739) are good choices as well.
 
 Thanks to [Jeremy Howard](https://twitter.com/jeremyphoward), [Dan Becker](https://twitter.com/dan_s_becker), and [Zach Mueller](https://twitter.com/TheZachMueller)  for reviewing this post.
 
