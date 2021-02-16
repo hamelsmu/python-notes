@@ -430,6 +430,7 @@ The following is terminology associated with Python concurrency that is often co
 - [GitHub repo](https://github.com/dabeaz/concurrencylive) that contains David's code.
 - The PyCon [youtube video](https://youtu.be/MCs5OvhV9S4) for this talk.
 - David's [page](https://www.dabeaz.com/) including links to courses.  I recently took David's [Advanced Python class](https://www.dabeaz.com/advprog.html) and it was excellent.
+- I read the first two chapters of [this book](https://www.amazon.com/Modern-Operating-Systems-Andrew-Tanenbaum/dp/013359162X) on Operating Systems to research how processes and threads worked. However I've been told[^8] that [this free book](https://pages.cs.wisc.edu/~remzi/OSTEP/) and [this book](https://www.amazon.com/Advanced-Programming-UNIX-Environment-3rd/dp/0321637739) are good choices as well.
 
 Thanks to [Jeremy Howard](https://twitter.com/jeremyphoward), [Dan Becker](https://twitter.com/dan_s_becker), and [Zach Mueller](https://twitter.com/TheZachMueller)  for reviewing this post.
 
@@ -440,3 +441,4 @@ Thanks to [Jeremy Howard](https://twitter.com/jeremyphoward), [Dan Becker](https
 [^5]: Python threads are idiosyncratic because of the [Global Interpreter Lock](https://wiki.python.org/moin/GlobalInterpreterLock) (GIL), which prevent multiple threads from executing code Python code at once.  It is important not to confuse the behavior of Python threads with threads generally.
 [^6]: That friend is  [Jeremy Howard](https://www.fast.ai/about/#jeremy).  He kept recommending the talk to me anytime the topic of concurrency came up.  I eventually caved and decided to really focus on this talk.
 [^7]: Code is originally from [this tutorial on threads](https://realpython.com/intro-to-python-threading/#working-with-many-threads).
+[^8]: Alternate operating systems book recommendations are from [Kenneth Chiu](https://twitter.com/kjw_chiu) from [this](https://twitter.com/kjw_chiu/status/1361454366574706690?s=20) and [this](https://twitter.com/kjw_chiu/status/1361469227878801412?s=20) tweet in response to this blog post.
