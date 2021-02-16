@@ -548,7 +548,7 @@
 </div><p>In this case, David uses a single thread with a blocking call to <code>sleep(1)</code> to make sure that <code>monitor</code> only prints once per second, while allowing the rest of the program to send requests hundreds of times per second.  In other words, this is a clever use of threads and blocking that allow part of a program to run at a desired time interval while allowing the rest of the program to run as usual. <sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup></p>
 <p>These different angles of looking at threads allowed me to understand threads more holistically.  Threads are not only about making certain things run faster or run in parallel, but also allows you to control how your program is executed.</p>
 <h2 id="how-threads-work">How threads work</h2>
-<p>A thread is always contained in a processes, and each processes contains one or more threads.  Threads in the same process can share memory which means they can easily communicate and write to common data structures.  Threads are useful in the following two scenarios:</p>
+<p>A thread is always contained in a process, and each process contains one or more threads.  Threads in the same process can share memory which means they can easily communicate and write to common data structures.  Threads are useful in the following two scenarios:</p>
 <ul>
 <li>When there are lots of non-cpu bound tasks (disk I/O, network calls, etc.).</li>
 <li>Outside of Python, if you want to parallelize a CPU bound task by splitting up the task across individual threads running on separate CPU cores.</li>

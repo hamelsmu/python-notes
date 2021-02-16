@@ -267,7 +267,7 @@ These different angles of looking at threads allowed me to understand threads mo
 
 ## How threads work
 
-A thread is always contained in a processes, and each processes contains one or more threads.  Threads in the same process can share memory which means they can easily communicate and write to common data structures.  Threads are useful in the following two scenarios:
+A thread is always contained in a process, and each process contains one or more threads.  Threads in the same process can share memory which means they can easily communicate and write to common data structures.  Threads are useful in the following two scenarios:
 
 - When there are lots of non-cpu bound tasks (disk I/O, network calls, etc.).
 - Outside of Python, if you want to parallelize a CPU bound task by splitting up the task across individual threads running on separate CPU cores. 
