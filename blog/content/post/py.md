@@ -26,7 +26,7 @@ twitter:
 
 As [a data scientist who is spending more time on software engineering](https://hamel.dev/), I was recently forced to confront an ugly gap in my knowledge of Python: concurrency.  To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together.  Every time I tried to learn about the subject, the examples were a bit too abstract for me, and I hard time internalizing how everything worked.  
 
-This changed when a friend of mine[^6] recommended [a live coding talk](https://youtu.be/MCs5OvhV9S4) by [Daivd Beazley](https://www.dabeaz.com/), an accomplished Python educator.  
+This changed when a friend of mine[^6] recommended [a live coding talk](https://youtu.be/MCs5OvhV9S4) by [David Beazley](https://www.dabeaz.com/), an accomplished Python educator.  
 
 _Because of restrictions with this YouTube video, I couldn't embed [the video](https://youtu.be/MCs5OvhV9S4) in this article, so you will have to open it in a different window_.
 
@@ -434,7 +434,7 @@ The following is terminology associated with Python concurrency that is often co
 
 Thanks to [Jeremy Howard](https://twitter.com/jeremyphoward), [Dan Becker](https://twitter.com/dan_s_becker), and [Zach Mueller](https://twitter.com/TheZachMueller)  for reviewing this post.
 
-[^1]: This fibonacci algorithm runs in O(n<sup>2</sup>) time.
+[^1]: This fibonacci algorithm runs in O(2<sup>n</sup>) time.
 [^2]: If the `monitor` task took any meaningful CPU time then the rest of the program would not run as "usual" because it might be competing for resources.  But that is not the case here.
 [^3]: One of the most popular ways of using process pools is with the built-in [multiprocessing](https://docs.python.org/3/library/multiprocessing.html) module.
 [^4]: Photo is from Luan Gjokaj on [UnSplash](https://unsplash.com/photos/nsr4hePZGYI).
