@@ -185,7 +185,7 @@
 <p><img src="/cpu.jpg" alt=""> Credit:<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
 <h1 id="motivation">Motivation</h1>
 <p>As <a href="https://hamel.dev/">a data scientist who is spending more time on software engineering</a>, I was recently forced to confront an ugly gap in my knowledge of Python: concurrency.  To be honest, I never completely understood how the terms async, threads, pools and coroutines were different and how these mechanisms could work together.  Every time I tried to learn about the subject, the examples were a bit too abstract for me, and I hard time internalizing how everything worked.</p>
-<p>This changed when a friend of mine<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> recommended <a href="https://youtu.be/MCs5OvhV9S4">a live coding talk</a> by <a href="https://www.dabeaz.com/">Daivd Beazley</a>, an accomplished Python educator.</p>
+<p>This changed when a friend of mine<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> recommended <a href="https://youtu.be/MCs5OvhV9S4">a live coding talk</a> by <a href="https://www.dabeaz.com/">David Beazley</a>, an accomplished Python educator.</p>
 <p><em>Because of restrictions with this YouTube video, I couldn&rsquo;t embed <a href="https://youtu.be/MCs5OvhV9S4">the video</a> in this article, so you will have to open it in a different window</em>.</p>
 <p>This talk is incredibly intimidating at first.  Not only is it coded live from scratch, but it also jumps immediately into socket programming, something that I had never encountered as a data scientist.  However, if you go through it slowly and understand all the components (as we do in this blog post) it turns out to be the best educational material on Python concurrency I have ever encountered.  This blog post documents what I learned along the way so others can benefit, too.</p>
 <h1 id="prerequisites">Prerequisites</h1>
@@ -777,7 +777,7 @@
 <p>That friend is  <a href="https://www.fast.ai/about/#jeremy">Jeremy Howard</a>.  He kept recommending the talk to me anytime the topic of concurrency came up.  I eventually caved and decided to really focus on this talk. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p>This fibonacci algorithm runs in O(n<sup>2</sup>) time. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>This fibonacci algorithm runs in O(2<sup>n</sup>) time. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:4" role="doc-endnote">
 <p>Python threads are idiosyncratic because of the <a href="https://wiki.python.org/moin/GlobalInterpreterLock">Global Interpreter Lock</a> (GIL), which prevent multiple threads from executing code Python code at once.  It is important not to confuse the behavior of Python threads with threads generally. <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
