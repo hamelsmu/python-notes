@@ -434,7 +434,7 @@ The following is terminology associated with Python concurrency that is often co
 
 Thanks to [Jeremy Howard](https://twitter.com/jeremyphoward), [Dan Becker](https://twitter.com/dan_s_becker), and [Zach Mueller](https://twitter.com/TheZachMueller)  for reviewing this post.
 
-[^1]: This fibonacci algorithm runs in O(2<sup>n</sup>) time.
+[^1]: This fibonacci algorithm runs in Ω(1.6<sup>n</sup>) time.
 [^2]: If the `monitor` task took any meaningful CPU time then the rest of the program would not run as "usual" because it might be competing for resources.  But that is not the case here.
 [^3]: One of the most popular ways of using process pools is with the built-in [multiprocessing](https://docs.python.org/3/library/multiprocessing.html) module.
 [^4]: Photo is from Luan Gjokaj on [UnSplash](https://unsplash.com/photos/nsr4hePZGYI).
